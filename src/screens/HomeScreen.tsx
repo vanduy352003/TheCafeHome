@@ -13,8 +13,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import { ProductCardOne } from '../components/ProductCardOne';
+import ProductCardOne  from '../components/ProductCardOne';
 import CategorySection from '../components/CategorySection';
+import ProductHorizontalSection from '../components/ProductHorizontalSection';
 
 
 const productList = [
@@ -32,7 +33,21 @@ function HomeScreen(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
+        <Text>
+          Cùng uống thả ga với 
+        </Text>
+        <Text>
+          The Cafe Home 
+        </Text>
+
         <ScrollView>
+          <Text style={styles.header}>
+            Mua ngay kẻo hết
+          </Text>
+          <ProductHorizontalSection></ProductHorizontalSection>
+          <Text style={styles.header}>
+            Danh mục sản phẩm
+          </Text>       
           <CategorySection></CategorySection>
           <Text style={styles.header}>
             Sản phẩm ưu đãi
@@ -67,7 +82,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     marginTop: 18,
-    marginBottom: 16
+    marginBottom: 16,
   }
 });
 

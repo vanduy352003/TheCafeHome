@@ -52,7 +52,7 @@ function CategorySection(): React.JSX.Element {
           alwaysBounceVertical={false}
           renderItem={itemData => {
             return (
-              <TouchableOpacity style={styles.categoryItem}>
+              <TouchableOpacity style={[styles.categoryItem, itemData.index>0?itemData.index!=Math.ceil(categoryList.length / 2)?{marginLeft:30}:{}:{}]}>
                 <Image
                   style={styles.categoryImage}
                   source={require('../assets/images/hongtra.png')}
@@ -71,9 +71,11 @@ const styles = StyleSheet.create({
   categorySection: {
     width: '100%',
     height: 310,
-    padding: 5,
+    paddingHorizontal: 5,
     alignItems: 'center',
     flexWrap: 'wrap',
+    elevation: 1,
+    shadowColor: '#56A568',
   },
   viewItem: {
     flexDirection: 'row',

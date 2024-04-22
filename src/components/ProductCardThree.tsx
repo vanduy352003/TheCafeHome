@@ -2,17 +2,16 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, TouchableWithout
 import { Product } from "../model/product";
 import Icon from "react-native-vector-icons/Entypo";
 
-const window = Dimensions.get('window')
-
-
 type productProp = {
     product: Product;
-}
+  };
 
-function ProductCardOne({product}: productProp): React.JSX.Element {
+  const window = Dimensions.get('window')
+
+function ProductCardThree({product}: productProp): React.JSX.Element{
     return(
         <TouchableWithoutFeedback>
-            <View style={styles.productItem}>
+            <View>
                 <Image style={styles.productImage} resizeMode="cover" source={require('../assets/images/hongtra.png')}/>
                 <Text style={styles.productName}>{product.name}</Text>
                 <View style={styles.cardViewItem}>
@@ -54,10 +53,5 @@ const styles = StyleSheet.create({
     productPrice: {
         fontSize: 18,
         color: 'black'
-    },
-    productItem: {
-        marginBottom: 10
     }
 })
-
-export default ProductCardOne;
