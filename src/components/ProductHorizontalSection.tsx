@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 18,
     color: 'black',
-    marginVertical: 5
+    marginVertical: 5,
   },
   productItem: {
     marginRight: 10,

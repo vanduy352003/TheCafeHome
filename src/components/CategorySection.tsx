@@ -52,7 +52,15 @@ function CategorySection(): React.JSX.Element {
           alwaysBounceVertical={false}
           renderItem={itemData => {
             return (
-              <TouchableOpacity style={[styles.categoryItem, itemData.index>0?itemData.index!=Math.ceil(categoryList.length / 2)?{marginLeft:30}:{}:{}]}>
+              <TouchableOpacity
+                style={[
+                  styles.categoryItem,
+                  itemData.index > 0
+                    ? itemData.index != Math.ceil(categoryList.length / 2)
+                      ? {marginLeft: 30}
+                      : {}
+                    : {},
+                ]}>
                 <Image
                   style={styles.categoryImage}
                   source={require('../assets/images/hongtra.png')}
@@ -91,11 +99,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 6,
     borderRadius: 6,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   favoriteIcon: {
     color: 'white',
-    fontSize: 18
+    fontSize: 18,
   },
   searchIcon: {
     fontSize: 18,
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     fontSize: 18,
-    fontWeight: '400'
+    fontWeight: '400',
   },
   button: {
     backgroundColor: '#56A568',
