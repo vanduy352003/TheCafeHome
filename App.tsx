@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import ProductScreen from './src/screens/ProductScreen';
 import ShopLocationScreen from './src/screens/ShopLocationScreen';
