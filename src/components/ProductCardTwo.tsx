@@ -1,4 +1,3 @@
-
 import {
   Dimensions,
   Image,

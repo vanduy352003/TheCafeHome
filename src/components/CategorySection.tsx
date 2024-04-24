@@ -1,11 +1,9 @@
 import {
-  Alert,
   FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -13,7 +11,6 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 
 import CategoryCard from './CategoryCard';
-import { useState } from 'react';
 
 const categoryList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -31,29 +28,14 @@ const categoryList = [
 ];
 
 function CategorySection(): React.JSX.Element {
-  const [searchContent, setSearchContent] = useState("");
-  const searching = () => {
-    if(searchContent == "")
-      Alert.alert("Lỗi");
-    else {
-      Alert.alert(searchContent);
-    }
-  }
-  const handleSearchChange = (newText : string) => {
-    if(newText.length <= 20) {
-      setSearchContent(newText)
-    }
-  }
   return (
     <View style={styles.categorySection}>
       <View style={styles.viewItem}>
-        <View style={styles.searchBar} >
+        <TouchableOpacity style={styles.searchBar}>
           <IconFeather style={styles.searchIcon} name="search"></IconFeather>
-          <TextInput placeholder="Tìm kiếm" style={styles.searchInput} onChangeText={handleSearchChange}>
-            <Text style={styles.searchText}>{searchContent}</Text>
-          </TextInput>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={searching}>
+          <Text style={styles.searchText}>Tim kiem</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
           <IconMaterialIcons
             style={styles.favoriteIcon}
             name="favorite-border"></IconMaterialIcons>
@@ -118,11 +100,6 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 6,
     alignItems: 'center',
-  },
-  searchInput: {
-    margin:0,
-    padding:0,
-    flex:1
   },
   favoriteIcon: {
     color: 'white',
