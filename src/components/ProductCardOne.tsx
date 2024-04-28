@@ -14,11 +14,15 @@ const window = Dimensions.get('window');
 
 type productProp = {
   product: Product;
+  navigateToDetail: Function;
 };
 
-function ProductCardOne({product}: productProp): React.JSX.Element {
+function ProductCardOne({product, navigateToDetail}: productProp): React.JSX.Element {
+  const handlePressCard = () => {
+    navigateToDetail()
+  }
   return (
-    <TouchableWithoutFeedback>
+    <TouchableOpacity onPress={handlePressCard}>
       <View style={styles.productItem}>
         <Image
           style={styles.productImage}
@@ -33,7 +37,7 @@ function ProductCardOne({product}: productProp): React.JSX.Element {
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 }
 

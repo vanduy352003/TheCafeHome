@@ -1,12 +1,11 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
-import HomeScreen from './src/screens/HomeScreen';
-import ProductScreen from './src/screens/ProductScreen';
-import ShopLocationScreen from './src/screens/ShopLocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from './src/navigators/TabNavigator';
-
+import ProductInfomation from './src/screens/ProductInfomation';
+import FavoriteScreen from './src/screens/FavoriteScreen';
+import SearchScreen from './src/screens/SearchScreen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
@@ -14,8 +13,10 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
-        <Stack.Screen name="Home" component={HomeScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
-        <Stack.Screen name="Product" component={ProductScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="Detail" component={ProductInfomation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="Search" component={SearchScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="Favorite" component={FavoriteScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

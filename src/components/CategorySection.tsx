@@ -27,15 +27,27 @@ const categoryList = [
   {name: 'Cà phê sửa', price: 60, id: '6'},
 ];
 
-function CategorySection(): React.JSX.Element {
+type categoryProp = {
+  navigateToSearch: Function;
+  navigateToFavorite: Function;
+}
+
+function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): React.JSX.Element {
+  const handlePressSearch = () => {
+    navigateToSearch()
+  }
+
+  const handlePressFavorite = () => {
+    navigateToFavorite()
+  }
   return (
     <View style={styles.categorySection}>
       <View style={styles.viewItem}>
-        <TouchableOpacity style={styles.searchBar}>
+        <TouchableOpacity style={styles.searchBar} onPress={handlePressSearch}>
           <IconFeather style={styles.searchIcon} name="search"></IconFeather>
-          <Text style={styles.searchText}>Tim kiem</Text>
+          <Text style={styles.searchText}>Tìm kiếm</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handlePressFavorite}>
           <IconMaterialIcons
             style={styles.favoriteIcon}
             name="favorite-border"></IconMaterialIcons>
@@ -44,7 +56,9 @@ function CategorySection(): React.JSX.Element {
       <ScrollView
         horizontal={true}
         directionalLockEnabled={true}
-        alwaysBounceVertical={false}>
+        alwaysBounceVertical={false}
+        showsHorizontalScrollIndicator={true}
+        >
         <FlatList
           data={categoryList}
           numColumns={Math.ceil(categoryList.length / 2)}
@@ -135,6 +149,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
   },
+  scrollIndicator: {
+    width: 10
+  }
 });
 
 export default CategorySection;

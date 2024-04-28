@@ -1,15 +1,11 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
 import ProductCardOne from '../components/ProductCardOne';
 import CategorySection from '../components/CategorySection';
 import ProductHorizontalSection from '../components/ProductHorizontalSection';
+import HeaderBar from '../components/HeaderBar';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useStore } from '../store/store';
 
 const productList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -20,23 +16,46 @@ const productList = [
   {name: 'Cà phê sửa', price: 60, id: '6'},
 ];
 
-function HomeScreen(): React.JSX.Element {
+
+function HomeScreen({navigation}: any): React.JSX.Element {
+  const CoffeeList = useStore((state: any)=>state.CoffeeList);
+  const BeanList = useStore((state: any)=>state.BeanList);
+
+  const tabBarHeight = useBottomTabBarHeight();
+
+  const handlePressCard = () => {
+    navigation.push('Detail')
+  }
+
+  const handlePressSearch = () => {
+    navigation.push('Search')
+  }
+
+  const handlePressFavorite = () => {
+    navigation.push('Favorite')
+  }
+
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text>Cùng uống thả ga với</Text>
-        <Text>The Cafe Home</Text>
-        <Text style={styles.header}>Mua ngay kẻo hết</Text>
-        <ProductHorizontalSection></ProductHorizontalSection>
-        <Text style={styles.header}>Danh mục sản phẩm</Text>
-        <CategorySection></CategorySection>
-        <Text style={styles.header}>Sản phẩm ưu đãi</Text>
-        <View style={styles.productList}>
-          {[...productList].map((item, index) => (
-            <ProductCardOne
-              key={index}
-              product={productList[index]}></ProductCardOne>
-          ))}
+    <View style={{paddingBottom:tabBarHeight}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={[styles.container, styles.backgroundGreen]}>
+          <HeaderBar title="Home ne"></HeaderBar>
+          <Text style={styles.introduceText}>Cùng uống thả ga với{'\n'}The Cafe Home bạn nhé</Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.header}>Mua ngay kẻo hết</Text>
+          <ProductHorizontalSection navigateToDetail={handlePressCard}></ProductHorizontalSection>
+          <Text style={styles.header}>Danh mục sản phẩm</Text>
+          <CategorySection navigateToFavorite={handlePressFavorite} navigateToSearch={handlePressSearch}></CategorySection>
+          <Text style={styles.header}>Sản phẩm ưu đãi</Text>
+          <View style={styles.productList}>
+            {[...productList].map((item, index) => (
+              <ProductCardOne
+                key={index}
+                product={productList[index]}
+                navigateToDetail={handlePressCard}></ProductCardOne>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -61,6 +80,18 @@ const styles = StyleSheet.create({
     marginTop: 18,
     marginBottom: 16,
   },
+  introduceText: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: 'white',
+  },
+  backgroundGreen: {
+    backgroundColor: '#56a568',
+    paddingBottom: 30,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    elevation: 10,
+  }
 });
 
 export default HomeScreen;
