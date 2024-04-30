@@ -6,6 +6,7 @@ import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useStore } from '../store/store';
+import SmallCart from '../components/SmallCart';
 
 const productList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -18,9 +19,6 @@ const productList = [
 
 
 function HomeScreen({navigation}: any): React.JSX.Element {
-  const CoffeeList = useStore((state: any)=>state.CoffeeList);
-  const BeanList = useStore((state: any)=>state.BeanList);
-
   const tabBarHeight = useBottomTabBarHeight();
 
   const handlePressCard = () => {
@@ -58,6 +56,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
           </View>
         </View>
       </ScrollView>
+      <SmallCart></SmallCart>
     </View>
   );
 }
