@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import Icon2 from "react-native-vector-icons/Ionicons";
 
 class radioButtonProp {
+    selectedOption : any;
     onPress : any;
     option : string | undefined;
     price : Number | undefined
@@ -17,14 +18,14 @@ function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
     return (
         <View style = {{flexDirection : "row", marginTop : 10}}>
             <TouchableOpacity activeOpacity={1} onPress={optionPress} style = {styles.radioButton}>
-                <Icon2 name = "radio-button-off" style = {{fontSize : 20}}></Icon2>
+                <Icon2 name = {prop.selectedOption === prop.option ? "radio-button-on" : "radio-button-off"} style = {{fontSize : 20}}></Icon2>
             </TouchableOpacity>
             <Text style = {styles.sizeContentText}>{prop.option} ({prop.price?.toString()}đ)</Text>
         </View>
     )
 }
 
-function ProductInfomation() : React.JSX.Element {
+function ProductInfomation({navigation} : any) : React.JSX.Element {
     const [selectedOption, setSelectedOption] = useState("");
     const [price, setPrice] = useState(0);
     const [favorite, setFavorite] = useState(0);
@@ -39,14 +40,26 @@ function ProductInfomation() : React.JSX.Element {
             setFavoriteIconName("hearto")
         }
     }
-    const sizePress = (option : string, price : number) => {
+    const handleOptionPress = (option : string, price : number) => {
         setSelectedOption(option)
         setPrice(price)
-        Alert.alert(option + " " + price.toString())
     }
-
+    const handlePressBack = () => {
+        navigation.goBack();
+    }
+    const handleAdd = () => {
+        Alert.alert("Chua them")
+        // 
+        navigation.goBack();
+    }
     return (
         <View style = {styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={handlePressBack}>
+                    <Icon style={styles.icon} name="left"></Icon>
+                </TouchableOpacity>
+                <Text style={styles.headerText}>Thông tin sản phẩm</Text>
+            </View>
             <View style = {styles.topContainer}>
                 <Image style = {styles.categoryImage} source={require('../assets/images/hongtra.png')}/>
             </View>
@@ -69,17 +82,17 @@ function ProductInfomation() : React.JSX.Element {
                 </View>
                 <View style = {styles.sizeContainer}> 
                     <Text style = {styles.sizeText}>Size</Text>
-                    <RadioButtonChoice option = "Lớn" price = {69000} onPress = {sizePress}>
+                    <RadioButtonChoice option = "Lớn" price = {69000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
-                    <RadioButtonChoice option = "Vừa" price = {65000} onPress = {sizePress}>
+                    <RadioButtonChoice option = "Vừa" price = {65000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
-                    <RadioButtonChoice option = "Nhỏ" price = {60000} onPress = {sizePress}>
+                    <RadioButtonChoice option = "Nhỏ" price = {60000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
                 </View>
             </View>
             
             <View style = {{backgroundColor : "white"}}>
-                <TouchableOpacity style = {styles.buyButton}>
+                <TouchableOpacity style = {styles.addButton} onPress={handleAdd} disabled={price <= 0 ? true : false}>
                     <Text style = {{fontSize : 20, color : "white"}}>{price}</Text>
                 </TouchableOpacity>
             </View>
@@ -109,6 +122,23 @@ const styles = StyleSheet.create({
         marginBottom : 15,
         backgroundColor : "white"
     },
+    header: {
+      flexDirection: 'row',
+      height: 60,
+      borderBottomWidth: 1,
+      borderBottomColor: 'lightgrey',
+      paddingHorizontal: 20,
+      alignItems: 'center',
+      backgroundColor : 'white',
+      // justifyContent: 'center'
+    },
+    headerText: {
+      fontSize: 20,
+      fontWeight: '500',
+      color: 'black',
+      textAlign: 'center',
+      flex: 1
+    },
 
     button: {
       width : 35,
@@ -129,7 +159,7 @@ const styles = StyleSheet.create({
     },
     icon : {
         fontSize : 25,
-        color : "orange"
+        color : "#56a568"
     },
     sizeContainer : {
         flex : 1,
@@ -149,14 +179,14 @@ const styles = StyleSheet.create({
         marginLeft : 10,
         fontSize : 20,
     },
-    buyButton : {
+    addButton : {
         alignSelf : "center",
         borderRadius : 5,
         height : 40,
         width : "90%",
         justifyContent : "center",
         alignItems : "center",
-        backgroundColor : "orange",
+        backgroundColor : "#56a568",
         marginTop : 5,
         marginBottom : 15
     }

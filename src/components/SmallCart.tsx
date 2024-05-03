@@ -1,6 +1,6 @@
-//Tui ko biết cái này có tên component 
-//là gì luôn nhưng nó là cái phần hiện phương thức
-//đặt + tiềncho mình biết ơ gần gốc dưới á
+// Tui ko biết cái này có tên component 
+// là gì luôn nhưng nó là cái phần hiện phương thức
+// đặt + tiền cho mình biết ơ gần gốc dưới á
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import  Icon  from "react-native-vector-icons/AntDesign";
