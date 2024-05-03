@@ -39,7 +39,7 @@ function ProductInfomation() : React.JSX.Element {
             setFavoriteIconName("hearto")
         }
     }
-    const sizePress = (option : string, price : Number) => {
+    const sizePress = (option : string, price : number) => {
         setSelectedOption(option)
         setPrice(price)
         Alert.alert(option + " " + price.toString())
@@ -78,7 +78,7 @@ function ProductInfomation() : React.JSX.Element {
                 </View>
             </View>
             
-            <View style = {{justifyContent : "center", height : 50, backgroundColor : "white"}}>
+            <View style = {{backgroundColor : "white"}}>
                 <TouchableOpacity style = {styles.buyButton}>
                     <Text style = {{fontSize : 20, color : "white"}}>{price}</Text>
                 </TouchableOpacity>
@@ -156,7 +156,9 @@ const styles = StyleSheet.create({
         width : "90%",
         justifyContent : "center",
         alignItems : "center",
-        backgroundColor : "orange"
+        backgroundColor : "orange",
+        marginTop : 5,
+        marginBottom : 15
     }
 });
 export default ProductInfomation;
