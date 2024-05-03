@@ -19,7 +19,7 @@ function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
             <TouchableOpacity activeOpacity={1} onPress={optionPress} style = {styles.radioButton}>
                 <Icon2 name = "radio-button-off" style = {{fontSize : 20}}></Icon2>
             </TouchableOpacity>
-            <Text style = {styles.sizeContentText}>{prop.option} ({prop.price}đ)</Text>
+            <Text style = {styles.sizeContentText}>{prop.option} ({prop.price?.toString()}đ)</Text>
         </View>
     )
 }
