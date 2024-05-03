@@ -21,7 +21,14 @@ const productList = [
 
 const window = Dimensions.get('window');
 
-function ProductHorizontalSection(): React.JSX.Element {
+type productProp = {
+  navigateToDetail: Function;
+};
+
+function ProductHorizontalSection({navigateToDetail}:productProp): React.JSX.Element {
+  const handlePress = () => {
+    navigateToDetail();
+  }
   return (
     <ScrollView
       horizontal={true}
@@ -35,7 +42,7 @@ function ProductHorizontalSection(): React.JSX.Element {
         alwaysBounceVertical={false}
         renderItem={itemData => {
           return (
-            <TouchableWithoutFeedback>
+            <TouchableOpacity onPress={handlePress}>
               <View style={styles.productItem}>
                 <Image
                   style={styles.productImage}
@@ -48,7 +55,7 @@ function ProductHorizontalSection(): React.JSX.Element {
                   <Text style={styles.buttonText}>Lấy</Text>
                 </TouchableOpacity>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           );
         }}
         keyExtractor={(item, index) => index.toString()}></FlatList>

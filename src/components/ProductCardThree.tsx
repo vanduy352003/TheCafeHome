@@ -12,42 +12,42 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 type productProp = {
   product: Product;
+  navigateToDetail: Function;
 };
 
 const window = Dimensions.get('window');
 
-function ProductCardThree({product}: productProp): React.JSX.Element {
+function ProductCardThree({product, navigateToDetail}: productProp): React.JSX.Element {
+  const handlePress = ()=>{
+    navigateToDetail()
+  }
   return (
-    <TouchableWithoutFeedback>
-      <View>
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.productItem}>
         <Image
           style={styles.productImage}
           resizeMode="cover"
           source={require('../assets/images/hongtra.png')}
         />
-        <Text style={styles.productName}>{product.name}</Text>
-        <View style={styles.cardViewItem}>
-          <Text style={styles.productPrice}>{product.price}</Text>
-          <TouchableOpacity style={styles.addButton}>
-            <Icon name="plus" size={24} color="white"></Icon>
-          </TouchableOpacity>
+        <View style={styles.productView}>
+          <Text style={styles.productName}>{product.name}</Text>
+            <Text style={styles.productPrice}>{product.price}</Text>
+            <View style={styles.theButton}>
+              <TouchableOpacity style={styles.addButton}>
+                <Icon name="plus" size={24} color="white"></Icon>
+              </TouchableOpacity>
+            </View>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   productImage: {
-    width: window.width / 2 - 15,
-    height: 200,
+    width: 2 * window.width / 5,
+    height: 160,
     borderRadius: 10,
-  },
-  cardViewItem: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   addButton: {
     width: 40,
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#56A568',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'flex-end',
   },
   productName: {
     fontSize: 18,
@@ -66,6 +67,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
   },
+  productItem: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  productView: {
+    marginLeft: 10,
+    flex: 1
+  },
+  theButton: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  }
 });
 
 export default ProductCardThree;

@@ -18,23 +18,20 @@ function TabNavigator(): React.JSX.Element {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: styles.tabBarStyle,
-            tabBarBackground: ()=>{
-                return <BlurView overlayColor='' blurAmount={15} style={styles.blurViewStyle} />;
-            }
             }}>
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 tabBarIcon: ({focused,color,size}) => (
-                    <IconOcticons name="home" size={25} color={focused?'blue':'white'}></IconOcticons>
+                    <IconOcticons name="home" size={25} color={focused?'#56A568':'grey'}></IconOcticons>
                 ),
             }}></Tab.Screen>
             <Tab.Screen name="Product" component={ProductScreen} options={{
                 tabBarIcon: ({focused,color,size}) => (
-                    <IconFeather name="coffee" size={25} color={focused?'blue':'white'}></IconFeather>
+                    <IconFeather name="coffee" size={25} color={focused?'#56A568':'grey'}></IconFeather>
                 ),
             }}></Tab.Screen>
             <Tab.Screen name="Location" component={ShopLocationScreen} options={{
                 tabBarIcon: ({focused,color,size}) => (
-                    <IconIon name="storefront-outline" size={25} color={focused?'blue':'white'}></IconIon>
+                    <IconIon name="storefront-outline" size={25} color={focused?'#56A568':'grey'}></IconIon>
                 ),
             }}></Tab.Screen>
             {/* <Tab.Screen name="Home" component={HomeScreen}></Tab.Screen> */}
@@ -47,18 +44,10 @@ const styles = StyleSheet.create({
     tabBarStyle: {
         height: 80,
         position: 'absolute',
-        backgroundColor: 'black',
+        backgroundColor: 'white',
         borderTopWidth: 0,
-        elevation: 0,
-        borderTopColor: 'transparent'
+        borderTopColor: 'black',
     },
-    blurViewStyle: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-    }
 })
 
 export default TabNavigator;
