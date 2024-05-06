@@ -1,8 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+
+const window = Dimensions.get('window');
+
 function CheckoutScreen({navigation}:any): React.JSX.Element {
     
     return(
@@ -26,22 +29,24 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                 </View>
                 {/* Đặt giao */}
                 <View>
-                    <View>
+                    <View style={styles.addressSection}>
                         <View>
-
+                            <Text style={[styles.textBold, styles.mb10]}>65 D.Cao Thắng</Text>
+                            <Text style={styles.addressText} numberOfLines={1}>65 D.Cao Thắng, Phường 3, Quận 3, Thành phố Hồ Chí Minh, Việt Nam</Text>
                         </View>
-                        <TouchableOpacity>
-                            <IconEntypo name="chevron-right"></IconEntypo>
+                        <TouchableOpacity style={styles.addressButton}>
+                            <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>
                         </TouchableOpacity>
                     </View>
-                    <TextInput placeholder="Thêm hướng dẫn giao hàng"></TextInput>
-                    <View>
-                        <View>
-                            <Text>Duy Tran</Text>
-                            <Text>0123456789</Text>
+                    <TextInput style={styles.noteText} placeholder="Thêm hướng dẫn giao hàng"></TextInput>
+                    <View style={styles.flexDirectionRow}>
+                        <View style={styles.doubleColumn}>
+                            <Text style={[styles.mb10, {color: 'black'}]}>Duy Tran</Text>
+                            <Text >0123456789</Text>
                         </View>
-                        <View>
-                            <Text>15-30 phút</Text>
+                        <View style={styles.seperator}></View>
+                        <View style={styles.doubleColumn}>
+                            <Text style={[styles.mb10, {color: 'black'}]}>15-30 phút</Text>
                             <Text>Càng sớm càng tốt</Text>
                         </View>
                     </View>
@@ -51,24 +56,27 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             </View>
             {/* Thông tin giao hàng */}
 
-            <View>
-                <View>
+            <View style={styles.viewItem}>
+                <View style={styles.viewHeaderSection}>
                     <Text style={styles.headerText}>Sản phẩm đã chọn</Text>
-                    <TouchableOpacity>
-                        <IconEntypo name='plus'></IconEntypo>
-                        <Text>Thêm</Text>
+                    <TouchableOpacity style={[styles.button, styles.flexDirectionRow]}>
+                        <IconEntypo style={styles.buttonText} name='plus'></IconEntypo>
+                        <Text style={styles.buttonText}>Thêm</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
-                    <IconFontAwesome name='pencil'></IconFontAwesome>
-                    <View>
-                        <Text>1x Smoothie Phúc Bồn Tử Granola</Text>
-                        <Text>Nhỏ</Text>
+                <View style={styles.viewItemSection}>
+                    <View style={styles.productItem}>
+                        <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
+                        <View>
+                            <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
+                            <Text>Nhỏ</Text>
+                        </View>
                     </View>
-                    <Text>65.000đ</Text>
+                    <Text style={styles.moneyText}>65.000đ</Text>
                 </View>
+                
             </View>
-            <View>
+            <View style={styles.viewItem}>
                 <Text style={styles.headerText}>Tổng cộng</Text>
                 <View>
                     <Text>Thành tiền</Text>
@@ -79,7 +87,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <Text>100.000đ</Text>
                 </View>
             </View>
-            <View>
+            <View style={styles.bottomSection}>
                 <View>
                     <View>
                         <Text>Giao hàng</Text>
@@ -100,6 +108,7 @@ const styles = StyleSheet.create({
     container: {
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        flex: 1,
     },
     headerSection: {
         backgroundColor: 'white',
@@ -127,10 +136,11 @@ const styles = StyleSheet.create({
     headerText: {
         color: 'black',
         fontSize: 18,
-        fontWeight: '500'
+        fontWeight: '500',
+        marginBottom: 30
     },
     button: {
-        backgroundColor: 'lightgreen',
+        backgroundColor: '#56a568',
         height: 40,
         width: 100,
         borderRadius: 100,
@@ -145,13 +155,90 @@ const styles = StyleSheet.create({
     viewHeaderSection: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-
     },
     viewItem: {
         backgroundColor: 'white',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop: 20,
+        paddingVertical: 10,
+    },
+    addressSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    addressText: {
+        width: 3*window.width/4
+    },
+    addressIcon: {
+        fontSize: 16,
+        color: 'black'
+    },
+    addressButton: {
+        width: window.width/4 - 20,
+        height : 30,
+        alignItems:'flex-end',
+        justifyContent: 'center'
+    },
+    textBold: {
+        color: 'black',
+        fontWeight: '600',
+        fontSize: 16
+    },
+    mb10: {
+        marginBottom: 5,
+    },
+    noteText: {
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: 'grey',
+        marginVertical: 15,
+        borderTopWidth: 0.1,
+        marginHorizontal: 10
+    },
+    flexDirectionRow: {
+        flexDirection: 'row',
+        marginBottom: 10
+    },
+    doubleColumn: {
+        width: window.width/2 - 40,
+        borderStyle: 'dashed',
+        borderBottomWidth: 1,
+        borderColor: 'grey',
+        height: 55
+    },
+    seperator: {
+        borderWidth: 0.2,
+        marginHorizontal: 15,
+        borderColor: 'grey'
+    },
+    productItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    productItemIcon: {
+        color: '#56a568',
+        marginRight: 20
+    },
+    moneyText: {
+        fontWeight: '500',
+        color: 'black',
+    },
+    viewItemSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: 5
+    },
+    bottomSection: {
+        bottom: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
-
 })
 
 export default CheckoutScreen;

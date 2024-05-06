@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
-import ProductScreen from "../screens/ProductScreen";
 import ShopLocationScreen from "../screens/ShopLocationScreen";
 import IconOcticons from "react-native-vector-icons/Octicons";
 import IconFeather from "react-native-vector-icons/Feather";
@@ -22,11 +21,6 @@ function TabNavigator(): React.JSX.Element {
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 tabBarIcon: ({focused,color,size}) => (
                     <IconOcticons name="home" size={25} color={focused?'#56A568':'grey'}></IconOcticons>
-                ),
-            }}></Tab.Screen>
-            <Tab.Screen name="Product" component={ProductScreen} options={{
-                tabBarIcon: ({focused,color,size}) => (
-                    <IconFeather name="coffee" size={25} color={focused?'#56A568':'grey'}></IconFeather>
                 ),
             }}></Tab.Screen>
             <Tab.Screen name="Location" component={ShopLocationScreen} options={{
