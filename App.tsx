@@ -6,6 +6,7 @@ import TabNavigator from './src/navigators/TabNavigator';
 import ProductInfomation from './src/screens/ProductInfomation';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import CheckoutScreen from './src/screens/CheckoutScreen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
@@ -16,7 +17,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="Detail" component={ProductInfomation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Search" component={SearchScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Favorite" component={FavoriteScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
-
+        <Stack.Screen name="Checkout" component={CheckoutScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

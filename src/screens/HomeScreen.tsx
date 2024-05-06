@@ -33,6 +33,10 @@ function HomeScreen({navigation}: any): React.JSX.Element {
     navigation.push('Favorite')
   }
 
+  const handlePressCheckout = () => {
+    navigation.push('Checkout')
+  }
+
   return (
     <View style={{paddingBottom:tabBarHeight}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -56,7 +60,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
           </View>
         </View>
       </ScrollView>
-      <SmallCart></SmallCart>
+      <SmallCart navigateToCheckout={handlePressCheckout}></SmallCart>
     </View>
   );
 }

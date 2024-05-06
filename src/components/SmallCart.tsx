@@ -7,8 +7,14 @@ import  Icon  from "react-native-vector-icons/AntDesign";
 
 const window = Dimensions.get('window')
 
-function SmallCart(): React.JSX.Element {
-    
+type cartProp = {
+    navigateToCheckout: Function;
+}
+
+function SmallCart({navigateToCheckout}: cartProp): React.JSX.Element {
+    const handlePress = () => {
+        navigateToCheckout();
+    }
     return(
         <TouchableWithoutFeedback>
             <View style={styles.container}>
@@ -16,7 +22,7 @@ function SmallCart(): React.JSX.Element {
                     <Text style={styles.textDelivery}>Giao đến</Text>
                     <Text style={styles.textAddress} numberOfLines={1} ellipsizeMode="tail">Số 1 Võ Văn Ngân, Thủ Đức, Thành Phố Hồ Chí Minh</Text>
                 </View>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handlePress}>
                     <View style={styles.numberView}>
                         <Text style={styles.numberText}>199</Text>
                     </View>
