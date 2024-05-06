@@ -6,21 +6,25 @@ import TabNavigator from './src/navigators/TabNavigator';
 import ProductInfomation from './src/screens/ProductInfomation';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import Login from './src/screens/Login';
+import SignUp from './src/screens/SignUp';
 import CheckoutScreen from './src/screens/CheckoutScreen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  return (
+  return ( 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Detail" component={ProductInfomation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Search" component={SearchScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Favorite" component={FavoriteScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="Login" component={Login} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="SignUp" component={SignUp} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Checkout" component={CheckoutScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  ); 
 }
 
 const styles = StyleSheet.create({
