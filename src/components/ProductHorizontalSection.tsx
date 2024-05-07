@@ -30,14 +30,10 @@ function ProductHorizontalSection({navigateToDetail}:productProp): React.JSX.Ele
     navigateToDetail();
   }
   return (
-    <ScrollView
-      horizontal={true}
-      directionalLockEnabled={true}
-      alwaysBounceVertical={false}
-      showsHorizontalScrollIndicator={false}>
       <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
         data={productList}
-        numColumns={productList.length}
         directionalLockEnabled={true}
         alwaysBounceVertical={false}
         renderItem={itemData => {
@@ -59,7 +55,6 @@ function ProductHorizontalSection({navigateToDetail}:productProp): React.JSX.Ele
           );
         }}
         keyExtractor={(item, index) => index.toString()}></FlatList>
-    </ScrollView>
   );
 }
 

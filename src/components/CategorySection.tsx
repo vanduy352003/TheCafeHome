@@ -57,7 +57,7 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
         horizontal={true}
         directionalLockEnabled={true}
         alwaysBounceVertical={false}
-        showsHorizontalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
         >
         <FlatList
           data={categoryList}

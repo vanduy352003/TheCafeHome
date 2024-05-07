@@ -1,103 +1,137 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+import HeaderBar from "../components/HeaderBar";
 
 const window = Dimensions.get('window');
 
 function CheckoutScreen({navigation}:any): React.JSX.Element {
     
+    const handlePressThem = () => {
+        navigation.navigate('Home')
+    }
+
     return(
         <View style={styles.container}>
-            <View style={styles.headerSection}>
-                <TouchableOpacity>
-                    <Text style={styles.deleteText}>Xóa</Text>
-                </TouchableOpacity>
-                <Text style={styles.headerSectionText}>Xác nhận đơn hàng</Text>
-                <TouchableOpacity>
-                    <IconEntypo style={styles.closeIcon} name='cross'></IconEntypo>
-                </TouchableOpacity>
-            </View>
-            {/* Thông tin giao hàng */}
-            <View style={styles.viewItem}>
-                <View style={styles.viewHeaderSection}>
-                    <Text style={styles.headerText}>Giao hàng tận nơi</Text>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Thay đổi</Text>
+            <HeaderBar title="Check out"></HeaderBar>
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+                <View style={styles.headerSection}>
+                    <TouchableOpacity>
+                        <Text style={styles.deleteText}>Xóa</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.headerSectionText}>Xác nhận đơn hàng</Text>
+                    <TouchableOpacity>
+                        <IconEntypo style={styles.closeIcon} name='cross'></IconEntypo>
                     </TouchableOpacity>
                 </View>
-                {/* Đặt giao */}
-                <View>
-                    <View style={styles.addressSection}>
-                        <View>
-                            <Text style={[styles.textBold, styles.mb10]}>65 D.Cao Thắng</Text>
-                            <Text style={styles.addressText} numberOfLines={1}>65 D.Cao Thắng, Phường 3, Quận 3, Thành phố Hồ Chí Minh, Việt Nam</Text>
-                        </View>
-                        <TouchableOpacity style={styles.addressButton}>
-                            <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>
+                {/* Thông tin giao hàng */}
+                <View style={styles.viewItem}>
+                    <View style={styles.viewHeaderSection}>
+                        <Text style={styles.headerText}>Giao hàng tận nơi</Text>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Thay đổi</Text>
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.noteText} placeholder="Thêm hướng dẫn giao hàng"></TextInput>
-                    <View style={styles.flexDirectionRow}>
-                        <View style={styles.doubleColumn}>
-                            <Text style={[styles.mb10, {color: 'black'}]}>Duy Tran</Text>
-                            <Text >0123456789</Text>
+                    {/* Đặt giao */}
+                    <View>
+                        <View style={styles.addressSection}>
+                            <View>
+                                <Text style={[styles.textBold, styles.mb5]}>65 D.Cao Thắng</Text>
+                                <Text style={styles.addressText} numberOfLines={1}>65 D.Cao Thắng, Phường 3, Quận 3, Thành phố Hồ Chí Minh, Việt Nam</Text>
+                            </View>
+                            <TouchableOpacity style={styles.addressButton}>
+                                <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.seperator}></View>
-                        <View style={styles.doubleColumn}>
-                            <Text style={[styles.mb10, {color: 'black'}]}>15-30 phút</Text>
-                            <Text>Càng sớm càng tốt</Text>
-                        </View>
-                    </View>
-                </View>
-
-                {/* Đến lấy */}
-            </View>
-            {/* Thông tin giao hàng */}
-
-            <View style={styles.viewItem}>
-                <View style={styles.viewHeaderSection}>
-                    <Text style={styles.headerText}>Sản phẩm đã chọn</Text>
-                    <TouchableOpacity style={[styles.button, styles.flexDirectionRow]}>
-                        <IconEntypo style={styles.buttonText} name='plus'></IconEntypo>
-                        <Text style={styles.buttonText}>Thêm</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.viewItemSection}>
-                    <View style={styles.productItem}>
-                        <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
-                        <View>
-                            <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
-                            <Text>Nhỏ</Text>
+                        <TextInput style={styles.noteText} placeholder="Thêm hướng dẫn giao hàng"></TextInput>
+                        <View style={styles.flexDirectionRow}>
+                            <View style={styles.doubleColumn}>
+                                <Text style={[styles.mb5, {color: 'black'}]}>Duy Tran</Text>
+                                <Text >0123456789</Text>
+                            </View>
+                            <View style={styles.seperator}></View>
+                            <View style={styles.doubleColumn}>
+                                <Text style={[styles.mb5, {color: 'black'}]}>15-30 phút</Text>
+                                <Text>Càng sớm càng tốt</Text>
+                            </View>
                         </View>
                     </View>
-                    <Text style={styles.moneyText}>65.000đ</Text>
+
+                    {/* Đến lấy */}
                 </View>
-                
-            </View>
-            <View style={styles.viewItem}>
-                <Text style={styles.headerText}>Tổng cộng</Text>
-                <View>
-                    <Text>Thành tiền</Text>
-                    <Text>65.000đ</Text>
+                {/* Thông tin giao hàng */}
+
+                <View style={styles.viewItem}>
+                    <View style={styles.viewHeaderSection}>
+                        <Text style={styles.headerText}>Sản phẩm đã chọn</Text>
+                        <TouchableOpacity style={[styles.button, styles.flexDirectionRow]} onPress={handlePressThem}>
+                            <IconEntypo style={styles.buttonText} name='plus'></IconEntypo>
+                            <Text style={styles.buttonText}>Thêm</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viewItemSection}>
+                        <View style={styles.productItem}>
+                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
+                            <View>
+                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
+                                <Text>Nhỏ</Text>
+                                <Text>Chan trau</Text>
+                                <Text>Thach dua</Text>
+                            </View>
+                        </View>
+                        <Text style={styles.moneyText}>65.000đ</Text>
+                    </View>
+                    <View style={styles.viewItemSection}>
+                        <View style={styles.productItem}>
+                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
+                            <View>
+                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
+                                <Text>Nhỏ</Text>
+                                <Text>Chan trau</Text>
+                                <Text>Thach dua</Text>
+                            </View>
+                        </View>
+                        <Text style={styles.moneyText}>65.000đ</Text>
+                    </View>
+                    <View style={styles.viewItemSection}>
+                        <View style={styles.productItem}>
+                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
+                            <View>
+                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
+                                <Text>Nhỏ</Text>
+                                <Text>Chan trau</Text>
+                                <Text>Thach dua</Text>
+                            </View>
+                        </View>
+                        <Text style={styles.moneyText}>65.000đ</Text>
+                    </View>
+                    
                 </View>
-                <View>
-                    <Text>Phí giao hàng</Text>
-                    <Text>100.000đ</Text>
+                <View style={styles.viewItem}>
+                    <Text style={styles.headerText}>Tổng cộng</Text>
+                    <View>
+                        <Text>Thành tiền</Text>
+                        <Text>65.000đ</Text>
+                    </View>
+                    <View>
+                        <Text>Phí giao hàng</Text>
+                        <Text>100.000đ</Text>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
             <View style={styles.bottomSection}>
                 <View>
-                    <View>
-                        <Text>Giao hàng</Text>
-                        <IconEntypo name="dot-single"></IconEntypo>
-                        <Text>1 sản phẩm</Text>
+                    <View style={[styles.flexDirectionRow]}>
+                        <Text style={[styles.whiteText, styles.bigText]}>Giao hàng</Text>
+                        <IconEntypo style={[styles.whiteText, styles.bigText]} name="dot-single"></IconEntypo>
+                        <Text style={[styles.whiteText, styles.bigText]}>1 sản phẩm</Text>
                     </View>
-                    <Text>83.000đ</Text>
+                    <Text style={[styles.headerText, styles.whiteText, styles.bigText]}>83.000đ</Text>
                 </View>
-                <TouchableOpacity>
-                    <Text>ĐẶT HÀNG</Text>
+                <TouchableOpacity style={styles.orderButton}>
+                    <Text style={styles.orderButtonText}>ĐẶT HÀNG</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -106,8 +140,6 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
 
 const styles = StyleSheet.create({
     container: {
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
         flex: 1,
     },
     headerSection: {
@@ -185,7 +217,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 16
     },
-    mb10: {
+    mb5: {
         marginBottom: 5,
     },
     noteText: {
@@ -201,7 +233,8 @@ const styles = StyleSheet.create({
     },
     flexDirectionRow: {
         flexDirection: 'row',
-        marginBottom: 10
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     doubleColumn: {
         width: window.width/2 - 40,
@@ -234,10 +267,35 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     bottomSection: {
-        bottom: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        backgroundColor: '#56a568',
+        height: '20%',
+        paddingTop: 20,
+        paddingHorizontal: 10
+    },
+    scrollView: {
+        height: '80%',
+    },
+    orderButton: {
+        backgroundColor: 'white',
+        height: 40,
+        width: 100,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
+    },
+    orderButtonText: {
+        color: '#56a568',
+        fontSize: 16,
+        fontWeight: '500'
+    },
+    whiteText: {
+        color: 'white'
+    },
+    bigText: {
+        fontSize: 20
     }
 })
 

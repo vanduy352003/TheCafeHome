@@ -6,7 +6,6 @@ import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useStore } from '../store/store';
-import SmallCart from '../components/SmallCart';
 
 const productList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -39,9 +38,9 @@ function HomeScreen({navigation}: any): React.JSX.Element {
 
   return (
     <View style={{paddingBottom:tabBarHeight}}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <HeaderBar title="Home"></HeaderBar>
+      <ScrollView style={{marginBottom:60}} showsVerticalScrollIndicator={false}>
         <View style={[styles.container, styles.backgroundGreen]}>
-          <HeaderBar title="Home ne"></HeaderBar>
           <Text style={styles.introduceText}>Cùng uống thả ga với{'\n'}The Cafe Home bạn nhé</Text>
         </View>
         <View style={styles.container}>
@@ -60,7 +59,6 @@ function HomeScreen({navigation}: any): React.JSX.Element {
           </View>
         </View>
       </ScrollView>
-      <SmallCart navigateToCheckout={handlePressCheckout}></SmallCart>
     </View>
   );
 }
@@ -70,7 +68,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
   },
-  viewItem: {},
   productList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
