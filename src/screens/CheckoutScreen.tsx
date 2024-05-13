@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import HeaderBar from "../components/HeaderBar";
+import { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
+import LocationBottomSheet from "../components/LocationBottomSheet";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const window = Dimensions.get('window');
 
 function CheckoutScreen({navigation}:any): React.JSX.Element {
-    
+    const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
+    const deliveryBottomSheetRef = useRef<BottomSheet>(null);
     const handlePressThem = () => {
         navigation.navigate('Home')
     }
+    const handlePressDelivery = () => {
+        setIsOpenBottomSheet(true)
+        deliveryBottomSheetRef.current?.expand()
+    }
+
+    const handlePressCloseDelivery = () => {
+        setIsOpenBottomSheet(false)
+        deliveryBottomSheetRef.current?.close()
+    }
+
 
     return(
         <View style={styles.container}>
@@ -30,7 +45,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                 <View style={styles.viewItem}>
                     <View style={styles.viewHeaderSection}>
                         <Text style={styles.headerText}>Giao hàng tận nơi</Text>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={handlePressDelivery}>
                             <Text style={styles.buttonText}>Thay đổi</Text>
                         </TouchableOpacity>
                     </View>
@@ -111,13 +126,13 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                 </View>
                 <View style={styles.viewItem}>
                     <Text style={styles.headerText}>Tổng cộng</Text>
-                    <View>
+                    <View style={[styles.moneySection]}>
                         <Text>Thành tiền</Text>
-                        <Text>65.000đ</Text>
+                        <Text style={styles.moneyText}>65.000đ</Text>
                     </View>
-                    <View>
+                    <View style={[styles.moneySection]}>
                         <Text>Phí giao hàng</Text>
-                        <Text>100.000đ</Text>
+                        <Text style={styles.moneyText}>100.000đ</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -134,6 +149,8 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <Text style={styles.orderButtonText}>ĐẶT HÀNG</Text>
                 </TouchableOpacity>
             </View>
+            {isOpenBottomSheet && <View style={styles.overlay}><TouchableWithoutFeedback style={{height: '100%'}} onPress={handlePressCloseDelivery}></TouchableWithoutFeedback></View>}
+            <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery}></LocationBottomSheet>
         </View>
     )
 }
@@ -169,7 +186,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 18,
         fontWeight: '500',
-        marginBottom: 30
+        marginBottom: 20
     },
     button: {
         backgroundColor: '#56a568',
@@ -296,7 +313,20 @@ const styles = StyleSheet.create({
     },
     bigText: {
         fontSize: 20
-    }
+    },
+    moneySection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
 })
 
 export default CheckoutScreen;

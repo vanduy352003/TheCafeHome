@@ -5,7 +5,6 @@ import CategorySection from '../components/CategorySection';
 import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useStore } from '../store/store';
 
 const productList = [
   {name: 'Trà sữa', price: 10, id: '1'},
