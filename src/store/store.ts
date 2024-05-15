@@ -5,5 +5,5 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useDeliveryStore = create((set)=> ({
     deliveryType: '',
-    updateDeliveryType: ()=>{}
+    setDeliveryType: (method)=>set({deliveryType: method}),
 }))

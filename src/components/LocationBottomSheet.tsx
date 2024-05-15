@@ -1,76 +1,133 @@
-import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import IconMaterialIcons  from 'react-native-vector-icons/MaterialIcons';
+import React, {forwardRef, useCallback, useMemo, useRef} from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
+import {useDeliveryStore} from '../store/store';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 type Ref = BottomSheet;
+const window = Dimensions.get('window');
 
 const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
-  const {onClose} = props
-    const snapPoints = useMemo(()=>['25%'],[])    
+  const tabBarHeight = useBottomTabBarHeight();
+  const {onClose} = props;
+  const {deliveryType, setDeliveryType} = useDeliveryStore();
+  const snapPoints = useMemo(() => [tabBarHeight + 200], []);
   const handlePressClose = () => {
-     if (onClose)
-        onClose()
-  }
+    if (onClose) onClose();
+  };
   return (
-        <BottomSheet
-            index={-1}
-            ref={ref}
-            snapPoints={snapPoints}
-            enablePanDownToClose={true}
-            onClose={onClose}
-            style={styles.bottomSheetContainer}
-            handleIndicatorStyle={{backgroundColor:'white'}}
-        >
-            <View style={styles.flexDirectionRow}>
-                <Text style={styles.bottomSheetHeader}>Chọn phương thức đặt hàng</Text>
-                <TouchableOpacity onPress={handlePressClose}>
-                    <IconIonicons name="close"></IconIonicons>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <View style={styles.flexDirectionRow}>
-                    <IconMaterialIcons name="delivery-dining"></IconMaterialIcons>
-                    <View>
-                        <Text>Giao hàng</Text>
-                        <Text>Các sản phẩm sẽ được giao đến địa chỉ của bạn</Text>
-                    </View>
-                    <TouchableOpacity>
-                        <Text>Sửa</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.flexDirectionRow}>
-                    <IconMaterialIcons name="front-hand"></IconMaterialIcons>
-                    <View>
-                        <Text>Giao hàng</Text>
-                        <Text>Các sản phẩm sẽ được giao đến địa chỉ của bạn</Text>
-                    </View>
-                    <TouchableOpacity>
-                        <Text>Sửa</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            
-        </BottomSheet>
+    <BottomSheet
+      index={-1}
+      ref={ref}
+      snapPoints={snapPoints}
+      enablePanDownToClose={true}
+      onClose={onClose}
+      style={styles.bottomSheetContainer}
+      handleIndicatorStyle={{backgroundColor: 'white'}}>
+      <View style={[styles.flexDirectionRow, styles.headerSection]}>
+        <Text style={styles.bottomSheetHeader}>Chọn phương thức đặt hàng</Text>
+        <TouchableOpacity onPress={handlePressClose}>
+          <IconIonicons
+            style={[styles.icon, styles.rightAligned]}
+            name="close"></IconIonicons>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View
+          style={[
+            styles.flexDirectionRow,
+            deliveryType == 'Delivery' ? styles.pickedDelivery : '',
+          ]}>
+          <IconMaterialIcons
+            style={styles.icon}
+            name="delivery-dining"></IconMaterialIcons>
+          <View>
+            <Text>Giao hàng</Text>
+            <Text numberOfLines={1} style={styles.textWidth}>
+              Các sản phẩm sẽ được giao đến địa chỉ của bạn
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setDeliveryType('Delivery');
+            }}>
+            <Text>Sửa</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={[
+            styles.flexDirectionRow,
+            deliveryType == 'SelfTake' ? styles.pickedDelivery : '',
+          ]}>
+          <IconMaterialIcons
+            style={styles.icon}
+            name="front-hand"></IconMaterialIcons>
+          <View>
+            <Text>Mang đi</Text>
+            <Text numberOfLines={1} style={styles.textWidth}>
+              Các sản phẩm sẽ được bạn lấy tại địa chỉ này
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setDeliveryType('SelfTake');
+            }}>
+            <Text>Sửa</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </BottomSheet>
   );
 });
 
 const styles = StyleSheet.create({
   bottomSheetContainer: {
-    elevation: 10, 
-    paddingHorizontal: 20   
+    elevation: 10,
   },
   bottomSheetHeader: {
     fontSize: 18,
     fontWeight: '500',
-    color: 'black'
+    color: 'black',
+    flex: 1,
+    textAlign: 'center',
   },
   flexDirectionRow: {
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  pickedDelivery: {
+    backgroundColor: '#d4f7e3',
+  },
+  button: {
+    width: 45,
+    height: 45,
+    borderRadius: 100,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    backgroundColor: '#56a568',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textWidth: {
+    width: (2 * window.width) / 3,
+  },
+  icon: {
+    fontSize: 30,
+  },
+  headerSection: {
+    // justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingHorizontal: 10,
+  },
+  rightAligned: {
+    marginLeft: 'auto',
+  },
 });
 
 export default LocationBottomSheet;
