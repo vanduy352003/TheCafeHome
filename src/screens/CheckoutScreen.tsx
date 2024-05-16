@@ -8,12 +8,14 @@ import { BottomSheetView } from "@gorhom/bottom-sheet";
 import BottomSheet from "@gorhom/bottom-sheet";
 import LocationBottomSheet from "../components/LocationBottomSheet";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useDeliveryStore } from "../store/store";
 
 const window = Dimensions.get('window');
 
 function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
+    const {deliveryType, setDeliveryType} = useDeliveryStore();
     const handlePressThem = () => {
         navigation.navigate('Home')
     }
@@ -44,7 +46,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                 {/* Thông tin giao hàng */}
                 <View style={styles.viewItem}>
                     <View style={styles.viewHeaderSection}>
-                        <Text style={styles.headerText}>Giao hàng tận nơi</Text>
+                        <Text style={styles.headerText}>{deliveryType=="Delivery"?"Giao hàng tận nơi":"Tự đến lấy hàng"}</Text>
                         <TouchableOpacity style={styles.button} onPress={handlePressDelivery}>
                             <Text style={styles.buttonText}>Thay đổi</Text>
                         </TouchableOpacity>
@@ -139,7 +141,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             <View style={styles.bottomSection}>
                 <View>
                     <View style={[styles.flexDirectionRow]}>
-                        <Text style={[styles.whiteText, styles.bigText]}>Giao hàng</Text>
+                        <Text style={[styles.whiteText, styles.bigText]}>{deliveryType=="Delivery"?"Giao hàng":"Mang đi"}</Text>
                         <IconEntypo style={[styles.whiteText, styles.bigText]} name="dot-single"></IconEntypo>
                         <Text style={[styles.whiteText, styles.bigText]}>1 sản phẩm</Text>
                     </View>

@@ -54,6 +54,7 @@ const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
             style={styles.button}
             onPress={() => {
               setDeliveryType('Delivery');
+              handlePressClose();
             }}>
             <Text>Sửa</Text>
           </TouchableOpacity>
@@ -76,6 +77,7 @@ const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
             style={styles.button}
             onPress={() => {
               setDeliveryType('SelfTake');
+              handlePressClose();
             }}>
             <Text>Sửa</Text>
           </TouchableOpacity>
