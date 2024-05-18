@@ -2,22 +2,23 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import ProductCardThree from "../components/ProductCardThree";
+import { Product } from "../model/product";
 
-const productList = [
-    {name: 'Trà sữa', price: 10, id: '1'},
-    {name: 'Trà sữa đào', price: 20, id: '2'},
-    {name: 'Trà sữa matcha', price: 30, id: '3'},
-    {name: 'Trà sữa cam', price: 40, id: '4'},
-    {name: 'Cà phê trà', price: 50, id: '5'},
-    {name: 'Cà phê sửa', price: 60, id: '6'},
-  ];
+const productList : Product[] = [
+  {productName: 'Trà sữa', productPrice: 10, id: '1'},
+  {productName: 'Trà sữa đào', productPrice: 20, id: '2'},
+  {productName: 'Trà sữa matcha', productPrice: 30, id: '3'},
+  {productName: 'Trà sữa cam', productPrice: 40, id: '4'},
+  {productName: 'Cà phê trà', productPrice: 50, id: '5'},
+  {productName: 'Cà phê sửa', productPrice: 60, id: '6'},
+];
 
 function FavoriteScreen({navigation}:any): React.JSX.Element {
     const handlePressBack = () => {
         navigation.goBack();
     }
-    const handlePressCard = () => {
-        navigation.push('Detail')
+    const handlePressCard = (product : Product) => {
+        navigation.push('Detail', {...product})
     }
     return(
         <View style={styles.container}>

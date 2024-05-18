@@ -1,9 +1,12 @@
 
-import React, { useState } from "react";
-import { Alert, ScrollView, TouchableOpacity, ViewBase } from "react-native";
-import { Image, StyleSheet, Text, View } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
-import Icon2 from "react-native-vector-icons/Ionicons";
+import React, { useState } from 'react';
+import { Alert, ScrollView, TouchableOpacity, ViewBase } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/Ionicons';
+import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
+import { Product } from '../model/product';
+import { print } from '@gorhom/bottom-sheet/lib/typescript/utilities/logger';
 
 class radioButtonProp {
     selectedOption : any;
@@ -16,28 +19,30 @@ function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
         prop.onPress(prop.option, prop.price)
     }
     return (
-        <View style = {{flexDirection : "row", marginTop : 10}}>
+        <View style = {{flexDirection : 'row', marginTop : 10}}>
             <TouchableOpacity activeOpacity={1} onPress={optionPress} style = {styles.radioButton}>
-                <Icon2 name = {prop.selectedOption === prop.option ? "radio-button-on" : "radio-button-off"} style = {{fontSize : 20}}></Icon2>
+                <Icon2 name = {prop.selectedOption === prop.option ? 'radio-button-on' : 'radio-button-off'} style = {styles.radioButtonIcon}></Icon2>
             </TouchableOpacity>
             <Text style = {styles.sizeContentText}>{prop.option} ({prop.price?.toString()}đ)</Text>
         </View>
     )
 }
 
-function ProductInfomation({navigation} : any) : React.JSX.Element {
-    const [selectedOption, setSelectedOption] = useState("");
+
+function ProductInfomation({route, navigation} : any) : React.JSX.Element {
+    const [selectedOption, setSelectedOption] = useState('');
     const [price, setPrice] = useState(0);
     const [favorite, setFavorite] = useState(0);
-    const [favoriteIconName, setFavoriteIconName] = useState("hearto")
+    const [favoriteIconName, setFavoriteIconName] = useState('hearto')
+    const {productName, productPrice} = route.params
     const handleFavoritePress = () => {
         if(favorite == 0) {
             setFavorite(1);
-            setFavoriteIconName("heart")
+            setFavoriteIconName('heart')
         }
         else {
             setFavorite(0);
-            setFavoriteIconName("hearto")
+            setFavoriteIconName('hearto')
         }
     }
     const handleOptionPress = (option : string, price : number) => {
@@ -48,15 +53,15 @@ function ProductInfomation({navigation} : any) : React.JSX.Element {
         navigation.goBack();
     }
     const handleAdd = () => {
-        Alert.alert("Chua them")
-        // 
+        Alert.alert('Chua them')
+        //  
         navigation.goBack();
     }
     return (
         <View style = {styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handlePressBack}>
-                    <Icon style={styles.icon} name="left"></Icon>
+                    <Icon style={styles.icon} name='left'></Icon>
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Thông tin sản phẩm</Text>
             </View>
@@ -65,11 +70,11 @@ function ProductInfomation({navigation} : any) : React.JSX.Element {
             </View>
             <View style = {styles.bottomContainer}>
                 <View style = {styles.informationContainer}>
-                    <View style = {{flexDirection : "row"}}>
-                        <View style = {{flex : 3, alignItems : "flex-start", justifyContent : "center"}}>
-                            <Text style = {styles.productName}>Trà sữa</Text>
+                    <View style = {{flexDirection : 'row'}}>
+                        <View style = {{flex : 3, alignItems : 'flex-start', justifyContent : 'center'}}>
+                            <Text style = {styles.productName}>{productName}</Text>
                         </View>
-                        <View style = {{flex : 2, alignItems : "flex-end", justifyContent : "center"}}>
+                        <View style = {{flex : 2, alignItems : 'flex-end', justifyContent : 'center'}}>
                             <TouchableOpacity style = {styles.button} onPress={handleFavoritePress} activeOpacity={1}>
                                 <Icon name={favoriteIconName} style = {styles.icon}>
                                 </Icon>
@@ -77,23 +82,23 @@ function ProductInfomation({navigation} : any) : React.JSX.Element {
                         </View>
                     </View>
                     <View>
-                        <Text style = {styles.productPrice}>65000</Text>
+                        <Text style = {styles.productPrice}>{productPrice}</Text>
                     </View>
                 </View>
                 <View style = {styles.sizeContainer}> 
                     <Text style = {styles.sizeText}>Size</Text>
-                    <RadioButtonChoice option = "Lớn" price = {69000} onPress = {handleOptionPress} selectedOption={selectedOption}>
+                    <RadioButtonChoice option = 'Lớn' price = {69000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
-                    <RadioButtonChoice option = "Vừa" price = {65000} onPress = {handleOptionPress} selectedOption={selectedOption}>
+                    <RadioButtonChoice option = 'Vừa' price = {65000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
-                    <RadioButtonChoice option = "Nhỏ" price = {60000} onPress = {handleOptionPress} selectedOption={selectedOption}>
+                    <RadioButtonChoice option = 'Nhỏ' price = {60000} onPress = {handleOptionPress} selectedOption={selectedOption}>
                     </RadioButtonChoice>
                 </View>
             </View>
             
-            <View style = {{backgroundColor : "white"}}>
+            <View style = {{backgroundColor : 'white'}}>
                 <TouchableOpacity style = {styles.addButton} onPress={handleAdd} disabled={price <= 0 ? true : false}>
-                    <Text style = {{fontSize : 20, color : "white"}}>{price}</Text>
+                    <Text style = {{fontSize : 20, color : 'white'}}>{price}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -101,17 +106,18 @@ function ProductInfomation({navigation} : any) : React.JSX.Element {
     )
 }
 
+const blackRGB = '#202020'
 const styles = StyleSheet.create({
     container : {
         flex:1,
-        backgroundColor : "#E0E0E0"
+        backgroundColor : '#E0E0E0'
     },
     topContainer : {
         flex:1,
     },
     categoryImage : {
-        width : "100%",
-        height : "100%"
+        width : '100%',
+        height : '100%'
     },
     bottomContainer : {
         flex : 1,
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
         paddingTop : 15,
         paddingBottom : 10,
         marginBottom : 15,
-        backgroundColor : "white"
+        backgroundColor : 'white'
     },
     header: {
       flexDirection: 'row',
@@ -135,9 +141,9 @@ const styles = StyleSheet.create({
     headerText: {
       fontSize: 20,
       fontWeight: '500',
-      color: 'black',
+      color: blackRGB,
       textAlign: 'center',
-      flex: 1
+      flex: 1,
     },
 
     button: {
@@ -151,42 +157,50 @@ const styles = StyleSheet.create({
     productName : {
         fontSize : 30,
         marginLeft : 10,
+        color : blackRGB,
     },
     productPrice : {
         fontSize : 18,
         marginTop : 10,
-        marginLeft : 10
+        marginLeft : 10,
+        color : blackRGB,
     },
     icon : {
         fontSize : 25,
-        color : "#56a568"
+        color : '#56a568'
     },
     sizeContainer : {
         flex : 1,
         paddingTop : 15,
-        backgroundColor : "white"
+        backgroundColor : 'white'
     },
     sizeText : {
         fontSize : 20,
         marginLeft : 10,
-        fontWeight : "bold",
+        fontWeight : 'bold',
+        color : blackRGB
     },
     sizeContentText : {
         fontSize : 16,
-        marginLeft : 10
+        marginLeft : 10,
+        color : blackRGB,
     },
     radioButton : {
         marginLeft : 10,
         fontSize : 20,
     },
+    radioButtonIcon : {
+        color : blackRGB,
+        fontSize : 20,
+    },
     addButton : {
-        alignSelf : "center",
+        alignSelf : 'center',
         borderRadius : 5,
         height : 40,
-        width : "90%",
-        justifyContent : "center",
-        alignItems : "center",
-        backgroundColor : "#56a568",
+        width : '90%',
+        justifyContent : 'center',
+        alignItems : 'center',
+        backgroundColor : '#56a568',
         marginTop : 5,
         marginBottom : 15
     }

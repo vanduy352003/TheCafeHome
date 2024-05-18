@@ -24,8 +24,8 @@ function ProductCardTwo({product}: productProp): React.JSX.Element {
           resizeMode="cover"
           source={require('../assets/images/hongtra.png')}
         />
-        <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.productPrice}>{product.price}</Text>
+        <Text style={styles.productName}>{product.productName}</Text>
+        <Text style={styles.productPrice}>{product.productPrice}</Text>
         <TouchableOpacity style={styles.addButton}>
           <Text>Lấy</Text>
         </TouchableOpacity>

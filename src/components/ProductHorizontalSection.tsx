@@ -9,49 +9,40 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-
-const productList = [
-  {name: 'Trà sữa', price: 10, id: '1'},
-  {name: 'Trà sữa đào', price: 20, id: '2'},
-  {name: 'Trà sữa matcha', price: 30, id: '3'},
-  {name: 'Trà sữa cam', price: 40, id: '4'},
-  {name: 'Cà phê trà', price: 50, id: '5'},
-  {name: 'Cà phê sửa', price: 60, id: '6'},
-];
+import DetailButton from './DetailButton';
+import { Product } from '../model/product';
 
 const window = Dimensions.get('window');
 
 type productProp = {
+  products : Product[];
   navigateToDetail: Function;
 };
 
-function ProductHorizontalSection({navigateToDetail}:productProp): React.JSX.Element {
-  const handlePress = () => {
-    navigateToDetail();
-  }
+function ProductHorizontalSection({products, navigateToDetail}:productProp): React.JSX.Element {
   return (
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={productList}
+        data={products}
         directionalLockEnabled={true}
         alwaysBounceVertical={false}
         renderItem={itemData => {
           return (
-            <TouchableOpacity onPress={handlePress}>
+            <DetailButton product={itemData.item} navigateToDetail = {navigateToDetail}>
               <View style={styles.productItem}>
                 <Image
                   style={styles.productImage}
                   resizeMode="cover"
                   source={require('../assets/images/hongtra.png')}
                 />
-                <Text style={styles.productName}>{itemData.item.name}</Text>
-                <Text style={styles.productPrice}>{itemData.item.price}</Text>
+                <Text style={styles.productName}>{itemData.item.productName}</Text>
+                <Text style={styles.productPrice}>{itemData.item.productPrice}</Text>
                 <TouchableOpacity style={styles.addButton}>
                   <Text style={styles.buttonText}>Lấy</Text>
                 </TouchableOpacity>
               </View>
-            </TouchableOpacity>
+            </DetailButton>
           );
         }}
         keyExtractor={(item, index) => index.toString()}></FlatList>

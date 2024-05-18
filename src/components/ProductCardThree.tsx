@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Product} from '../model/product';
 import Icon from 'react-native-vector-icons/Entypo';
+import DetailButton from './DetailButton';
 
 type productProp = {
   product: Product;
@@ -18,11 +19,8 @@ type productProp = {
 const window = Dimensions.get('window');
 
 function ProductCardThree({product, navigateToDetail}: productProp): React.JSX.Element {
-  const handlePress = ()=>{
-    navigateToDetail()
-  }
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <DetailButton navigateToDetail={navigateToDetail} product = {product}>
       <View style={styles.productItem}>
         <Image
           style={styles.productImage}
@@ -30,8 +28,8 @@ function ProductCardThree({product, navigateToDetail}: productProp): React.JSX.E
           source={require('../assets/images/hongtra.png')}
         />
         <View style={styles.productView}>
-          <Text style={styles.productName}>{product.name}</Text>
-            <Text style={styles.productPrice}>{product.price}</Text>
+          <Text style={styles.productName}>{product.productName}</Text>
+            <Text style={styles.productPrice}>{product.productPrice}</Text>
             <View style={styles.theButton}>
               <TouchableOpacity style={styles.addButton}>
                 <Icon name="plus" size={24} color="white"></Icon>
@@ -39,7 +37,7 @@ function ProductCardThree({product, navigateToDetail}: productProp): React.JSX.E
             </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </DetailButton>
   );
 }
 

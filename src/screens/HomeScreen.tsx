@@ -5,22 +5,24 @@ import CategorySection from '../components/CategorySection';
 import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { Product } from '../model/product';
 
-const productList = [
-  {name: 'Trà sữa', price: 10, id: '1'},
-  {name: 'Trà sữa đào', price: 20, id: '2'},
-  {name: 'Trà sữa matcha', price: 30, id: '3'},
-  {name: 'Trà sữa cam', price: 40, id: '4'},
-  {name: 'Cà phê trà', price: 50, id: '5'},
-  {name: 'Cà phê sửa', price: 60, id: '6'},
+const productList : Product[] = [
+  {productName: 'Trà sữa', productPrice: 10, id: '1'},
+  {productName: 'Trà sữa đào', productPrice: 20, id: '2'},
+  {productName: 'Trà sữa matcha', productPrice: 30, id: '3'},
+  {productName: 'Trà sữa cam', productPrice: 40, id: '4'},
+  {productName: 'Cà phê trà', productPrice: 50, id: '5'},
+  {productName: 'Cà phê sửa', productPrice: 60, id: '6'},
 ];
 
 
 function HomeScreen({navigation}: any): React.JSX.Element {
   const tabBarHeight = useBottomTabBarHeight();
 
-  const handlePressCard = () => {
-    navigation.push('Detail')
+  const handlePressCard = (product : Product) => {
+    console.log(product)
+    navigation.push('Detail', {...product})
   }
 
   const handlePressSearch = () => {
@@ -44,7 +46,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
         </View>
         <View style={styles.container}>
           <Text style={styles.header}>Mua ngay kẻo hết</Text>
-          <ProductHorizontalSection navigateToDetail={handlePressCard}></ProductHorizontalSection>
+          <ProductHorizontalSection products={productList} navigateToDetail={handlePressCard}></ProductHorizontalSection>
           <Text style={styles.header}>Danh mục sản phẩm</Text>
           <CategorySection navigateToFavorite={handlePressFavorite} navigateToSearch={handlePressSearch}></CategorySection>
           <Text style={styles.header}>Sản phẩm ưu đãi</Text>

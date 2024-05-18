@@ -45,7 +45,7 @@ const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
             style={styles.icon}
             name="delivery-dining"></IconMaterialIcons>
           <View>
-            <Text>Giao hàng</Text>
+            <Text style={styles.text}>Giao hàng</Text>
             <Text numberOfLines={1} style={styles.textWidth}>
               Các sản phẩm sẽ được giao đến địa chỉ của bạn
             </Text>
@@ -68,7 +68,7 @@ const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
             style={styles.icon}
             name="front-hand"></IconMaterialIcons>
           <View>
-            <Text>Mang đi</Text>
+            <Text style={styles.text}>Mang đi</Text>
             <Text numberOfLines={1} style={styles.textWidth}>
               Các sản phẩm sẽ được bạn lấy tại địa chỉ này
             </Text>
@@ -116,11 +116,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text : {
+    color : "black"
+  },
   textWidth: {
     width: (2 * window.width) / 3,
+    color : "black"
   },
   icon: {
     fontSize: 30,
+    color:"black",
+    marginRight : 10
   },
   headerSection: {
     // justifyContent: 'center',
