@@ -20,9 +20,13 @@ const categoryList = [
   {name: 'Cà phê sửa', price: 60, id: '6'},
 ];
 
-function ShopLocationScreen(): React.JSX.Element {
+function ShopLocationScreen({navigation}: any): React.JSX.Element {
     const [searchText, setSearchText] = useState('');
     const bottomTabHight = useBottomTabBarHeight();
+
+    const handleNavigate = () => {
+      navigation.push("LocationDetail")
+    }
 
     return(
         <View>
@@ -43,7 +47,7 @@ function ShopLocationScreen(): React.JSX.Element {
 
                 {
                     (categoryList).map((item, index) => 
-                        <LocationCard key={index}></LocationCard>
+                        <LocationCard navigationToDetail={handleNavigate} key={index}></LocationCard>
                     )
                 }
             </ScrollView>

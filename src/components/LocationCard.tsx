@@ -1,11 +1,17 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const window = Dimensions.get('window');
 
-function LocationCard(): React.JSX.Element {
+function LocationCard({navigationToDetail}:Function): React.JSX.Element {
+    
+    const handleNavigate = () => {
+        navigationToDetail();
+    }
+
     return(
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={handleNavigate}>
             <Image style={styles.image} resizeMode="cover" source={require('../assets/images/hongtra.png')}></Image>
             <View>
                 <Text style={styles.shopText}>The Cafe Home</Text>
@@ -13,7 +19,7 @@ function LocationCard(): React.JSX.Element {
                 <Text style={styles.distance}>Cách đây 0,01 km</Text>
                 <Text></Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

@@ -5,13 +5,13 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 const window = Dimensions.get('window');
 
-class Shop {
+class Shop  {
     name : string | undefined;
     address : string | undefined;
     phoneNumber : string | undefined;
 }
 
-function ShopInformation(shop : Shop): React.JSX.Element {
+function ShopInformation({route, navigation}:any): React.JSX.Element {
 
     return (
         <View>

@@ -9,6 +9,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
 import CheckoutScreen from './src/screens/CheckoutScreen';
+import ShopInformation from './src/screens/ShopInformation';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
@@ -22,6 +23,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="Login" component={Login} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Checkout" component={CheckoutScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="LocationDetail" component={ShopInformation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>      
       </Stack.Navigator>
     </NavigationContainer>
   ); 
