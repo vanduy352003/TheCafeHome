@@ -12,7 +12,6 @@ type detailProp = {
 export default 
 function DetailButton({children, product, navigateToDetail} : detailProp): React.JSX.Element {
     const handlePress = () => {
-        console.log(product)
         navigateToDetail(product)
     }
     return (

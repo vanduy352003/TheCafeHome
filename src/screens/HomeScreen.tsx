@@ -5,23 +5,14 @@ import CategorySection from '../components/CategorySection';
 import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { Product } from '../model/product';
+import { Product, productList } from '../model/product';
 
-const productList : Product[] = [
-  {productName: 'Trà sữa', productPrice: 10, id: '1'},
-  {productName: 'Trà sữa đào', productPrice: 20, id: '2'},
-  {productName: 'Trà sữa matcha', productPrice: 30, id: '3'},
-  {productName: 'Trà sữa cam', productPrice: 40, id: '4'},
-  {productName: 'Cà phê trà', productPrice: 50, id: '5'},
-  {productName: 'Cà phê sửa', productPrice: 60, id: '6'},
-];
 
 
 function HomeScreen({navigation}: any): React.JSX.Element {
   const tabBarHeight = useBottomTabBarHeight();
 
   const handlePressCard = (product : Product) => {
-    console.log(product)
     navigation.push('Detail', {...product})
   }
 
