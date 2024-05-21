@@ -4,6 +4,7 @@ import { Alert, Dimensions, ScrollView, TouchableOpacity, ViewBase } from 'react
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+import { useCartStore } from '../store/store';
 
 
 const window = Dimensions.get('window');
@@ -31,13 +32,17 @@ function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
 
 
 function ProductInfomation({route, navigation} : any) : React.JSX.Element {
-    const {productName, productPrice, size, topping} = route.params
+    const {productName, productPrice, size, topping, id} = route.params
     const [selectedOption, setSelectedOption] = useState(size[0][0]);
     const [selectedTopping, setselectedTopping] = useState(topping[0][0]);
     const [price, setPrice] = useState(0);
     const [toppingPrice, setToppingPrice] = useState(0);
     const [favorite, setFavorite] = useState(0);
     const [favoriteIconName, setFavoriteIconName] = useState('hearto')
+    const {cart, addToCart} = useCartStore((state)=>({
+        cart: state.cart,
+        addToCart: state.addToCart,
+    }));
     const handleFavoritePress = () => {
         if(favorite == 0) {
             setFavorite(1);
@@ -63,7 +68,9 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
     const handleAdd = () => {
         if(selectedOption == "" || selectedTopping == "")
             return;
-        Alert.alert('Chua them');
+
+        addToCart({"id":id,"price":price,"productName":productName,"variantName":selectedOption})
+        Alert.alert(`${cart.length}`);
         navigation.goBack();
     }
     return (
@@ -98,7 +105,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                     <View style = {styles.sizeContainer}> 
                         <Text style = {styles.sizeText}>Size</Text>
                         {[...size].map((item, index) =>
-                            <RadioButtonChoice option = {item[0]} price = {item[1]} onPress = {handleOptionPress} selectedOption={selectedOption}>
+                            <RadioButtonChoice key={index} option = {item[0]} price = {item[1]} onPress = {handleOptionPress} selectedOption={selectedOption}>
                                 <Text style = {styles.sizeContentText}>{item[0]} ({item[1].toString()}đ)</Text>
                             </RadioButtonChoice>
                         )}
@@ -108,7 +115,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                     <View style = {styles.sizeContainer}> 
                         <Text style = {styles.sizeText}>Topping</Text>
                         {[...topping].map((item, index) =>
-                            <RadioButtonChoice option = {item[0]} price = {item[1]} onPress = {handleToppingPress} selectedOption={selectedTopping}>
+                            <RadioButtonChoice key={index} option = {item[0]} price = {item[1]} onPress = {handleToppingPress} selectedOption={selectedTopping}>
                                 <Text style = {styles.sizeContentText}>{item[0]} ({item[1].toString()}đ)</Text>
                             </RadioButtonChoice>
                         )}

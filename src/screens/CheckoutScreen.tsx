@@ -8,7 +8,7 @@ import { BottomSheetView } from "@gorhom/bottom-sheet";
 import BottomSheet from "@gorhom/bottom-sheet";
 import LocationBottomSheet from "../components/LocationBottomSheet";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { useDeliveryStore } from "../store/store";
+import { useCartStore, useDeliveryStore } from "../store/store";
 
 const window = Dimensions.get('window');
 
@@ -16,6 +16,10 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
     const {deliveryType, setDeliveryType} = useDeliveryStore();
+    const {cart, clearCart} = useCartStore(useMemo(() => (state) => ({
+        cart: state.cart,
+        clearCart: state.clearCart,
+    }), []))
     const handlePressThem = () => {
         navigation.navigate('Home')
     }
@@ -25,23 +29,19 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     }
 
     const handlePressCloseDelivery = () => {
-        setIsOpenBottomSheet(false)
         deliveryBottomSheetRef.current?.close()
+        setIsOpenBottomSheet(false)
     }
-
 
     return(
         <View style={styles.container}>
             <HeaderBar title="Check out"></HeaderBar>
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <View style={styles.headerSection}>
-                    <TouchableOpacity>
+                    <TouchableOpacity style={styles.clearCart} onPress={clearCart}>
                         <Text style={styles.deleteText}>Xóa</Text>
                     </TouchableOpacity>
                     <Text style={styles.headerSectionText}>Xác nhận đơn hàng</Text>
-                    <TouchableOpacity>
-                        <IconEntypo style={styles.closeIcon} name='cross'></IconEntypo>
-                    </TouchableOpacity>
                 </View>
                 {/* Thông tin giao hàng */}
                 <View style={styles.viewItem}>
@@ -88,43 +88,21 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                             <Text style={styles.buttonText}>Thêm</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.viewItemSection}>
-                        <View style={styles.productItem}>
-                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
-                            <View>
-                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
-                                <Text>Nhỏ</Text>
-                                <Text>Chan trau</Text>
-                                <Text>Thach dua</Text>
-                            </View>
-                        </View>
-                        <Text style={styles.moneyText}>65.000đ</Text>
-                    </View>
-                    <View style={styles.viewItemSection}>
-                        <View style={styles.productItem}>
-                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
-                            <View>
-                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
-                                <Text>Nhỏ</Text>
-                                <Text>Chan trau</Text>
-                                <Text>Thach dua</Text>
-                            </View>
-                        </View>
-                        <Text style={styles.moneyText}>65.000đ</Text>
-                    </View>
-                    <View style={styles.viewItemSection}>
-                        <View style={styles.productItem}>
-                            <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
-                            <View>
-                                <Text style={styles.textBold}>1x Smoothie Phúc Bồn Tử Granola</Text>
-                                <Text>Nhỏ</Text>
-                                <Text>Chan trau</Text>
-                                <Text>Thach dua</Text>
-                            </View>
-                        </View>
-                        <Text style={styles.moneyText}>65.000đ</Text>
-                    </View>
-                    
+                    {
+                        [...cart].map((item, index) => 
+                            <View key={index} style={styles.viewItemSection}>
+                                <View style={styles.productItem}>
+                                    <IconFontAwesome style={styles.productItemIcon} name='pencil'></IconFontAwesome>
+                                    <View>
+                                        <Text style={styles.textBold}>{item.quantity}x {item.productVariant.productName}</Text>
+                                        <Text>{item.productVariant.variantName}</Text>
+                                        
+                                    </View>
+                                </View>
+                                <Text style={styles.moneyText}>65.000đ</Text>
+                            </View>                 
+                        )
+                    }
                 </View>
                 <View style={styles.viewItem}>
                     <Text style={styles.headerText}>Tổng cộng</Text>
@@ -173,6 +151,8 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 16,
         fontWeight: '500',
+        textAlign: 'center',
+        flex: 1
     },
     deleteText: {
         color: 'grey',
@@ -328,7 +308,12 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
+    },
+    clearCart: {
+        position: 'absolute',
+        left: 10,
+        zIndex: 1,
+    }
 })
 
 export default CheckoutScreen;
