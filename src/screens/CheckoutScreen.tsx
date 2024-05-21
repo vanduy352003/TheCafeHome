@@ -9,13 +9,15 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import LocationBottomSheet from "../components/LocationBottomSheet";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useCartStore, useDeliveryStore } from "../store/store";
+import { formatMoney } from "../utils/format";
 
 const window = Dimensions.get('window');
 
 function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
+    const [note, setNote] = useState("")
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
-    const {deliveryType, setDeliveryType} = useDeliveryStore();
+    const {deliveryType, takeAwayAddress, deliveryAdress} = useDeliveryStore();
     const deliveryMoney = 20000;
     const {cart, clearCart, calculateTotalPrice, getTotalProduct} = useCartStore(useMemo(() => (state) => ({
         cart: state.cart,
@@ -23,9 +25,14 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         calculateTotalPrice: state.calculateTotalPrice,
         getTotalProduct: state.getTotalProduct,
     }), []))
+
     const handlePressThem = () => {
         navigation.navigate('Home')
     }
+    const handlePressChangeAddress = () => {
+        navigation.navigate("Location", {isQuickPick:true})
+    }
+
     const handlePressDelivery = () => {
         setIsOpenBottomSheet(true)
         deliveryBottomSheetRef.current?.expand()
@@ -35,6 +42,20 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         deliveryBottomSheetRef.current?.close()
         setIsOpenBottomSheet(false)
     }
+
+    const handlePressOrder = () => {
+        const orderDetail = {
+            additionalFee: 0,
+            delivery: deliveryType,
+            totalPrice: calculateTotalPrice(),
+            finalPrice: calculateTotalPrice()+(deliveryType=="Delivery"?deliveryMoney:0),
+            note: note,
+        }
+        //Chua xong
+        console.log(orderDetail)
+    }
+
+
     return(
         <View style={styles.container}>
             <HeaderBar title="Check out"></HeaderBar>
@@ -57,14 +78,17 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <View>
                         <View style={styles.addressSection}>
                             <View>
-                                <Text style={[styles.textBold, styles.mb5]}>65 D.Cao Thắng</Text>
-                                <Text style={styles.addressText} numberOfLines={1}>65 D.Cao Thắng, Phường 3, Quận 3, Thành phố Hồ Chí Minh, Việt Nam</Text>
+                                <Text style={[styles.textBold, styles.mb5]}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.name}</Text>
+                                <Text style={styles.addressText} numberOfLines={1}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.address}</Text>
                             </View>
-                            <TouchableOpacity style={styles.addressButton}>
+                            <TouchableOpacity style={styles.addressButton} onPress={handlePressChangeAddress}>
                                 <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>
                             </TouchableOpacity>
                         </View>
-                        <TextInput style={styles.noteText} placeholder="Thêm hướng dẫn giao hàng"></TextInput>
+                        <TextInput style={styles.noteText} placeholder="Thêm hướng dẫn giao hàng"
+                            value={note}
+                            onChangeText={text=>setNote(text)}
+                            ></TextInput>
                         <View style={styles.flexDirectionRow}>
                             <View style={styles.doubleColumn}>
                                 <Text style={[styles.mb5, {color: 'black'}]}>Duy Tran</Text>
@@ -104,7 +128,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                                             
                                     </View>
                                 </View>
-                                <Text style={styles.moneyText}>{item.productVariant.price*item.quantity+(item.topping?item.topping.price:0)}đ</Text>
+                                <Text style={styles.moneyText}>{formatMoney(item.productVariant.price*item.quantity+(item.topping?item.topping.price:0))}đ</Text>
                             </View>                 
                         )
                     }
@@ -113,11 +137,11 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <Text style={styles.headerText}>Tổng cộng</Text>
                     <View style={[styles.moneySection]}>
                         <Text>Thành tiền</Text>
-                        <Text style={styles.moneyText}>{calculateTotalPrice()}đ</Text>
+                        <Text style={styles.moneyText}>{formatMoney(calculateTotalPrice())}đ</Text>
                     </View>
                     <View style={[styles.moneySection]}>
                         <Text>Phí giao hàng</Text>
-                        <Text style={styles.moneyText}>{deliveryType=="Delivery"?deliveryMoney:0}đ</Text>
+                        <Text style={styles.moneyText}>{deliveryType=="Delivery"?formatMoney(deliveryMoney):0}đ</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -128,14 +152,14 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                         <IconEntypo style={[styles.whiteText, styles.bigText]} name="dot-single"></IconEntypo>
                         <Text style={[styles.whiteText, styles.bigText]}>{getTotalProduct()} sản phẩm</Text>
                     </View>
-                    <Text style={[styles.headerText, styles.whiteText, styles.bigText]}>{calculateTotalPrice()+(deliveryType=="Delivery"?deliveryMoney:0)}đ</Text>
+                    <Text style={[styles.headerText, styles.whiteText, styles.bigText]}>{formatMoney(calculateTotalPrice()+(deliveryType=="Delivery"?deliveryMoney:0))}đ</Text>
                 </View>
-                <TouchableOpacity style={styles.orderButton}>
+                <TouchableOpacity style={styles.orderButton} onPress={handlePressOrder}>
                     <Text style={styles.orderButtonText}>ĐẶT HÀNG</Text>
                 </TouchableOpacity>
             </View>
             {isOpenBottomSheet && <View style={styles.overlay}><TouchableWithoutFeedback style={{height: '100%'}} onPress={handlePressCloseDelivery}></TouchableWithoutFeedback></View>}
-            <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery}></LocationBottomSheet>
+            <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery} handleQuickPick={handlePressChangeAddress}></LocationBottomSheet>
         </View>
     )
 }

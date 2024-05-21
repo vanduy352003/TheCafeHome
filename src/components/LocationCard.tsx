@@ -1,21 +1,29 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useDeliveryStore } from "../store/store";
 
 const window = Dimensions.get('window');
 
-function LocationCard({navigationToDetail}:Function): React.JSX.Element {
-    
+type locationProps = {
+    navigationToDetail: Function,
+    name: String,
+    address: String,
+    id: Number,
+    isQuickPick: Boolean,
+}
+
+function LocationCard({navigationToDetail, name, address, id, isQuickPick}:locationProps): React.JSX.Element {
     const handleNavigate = () => {
-        navigationToDetail();
+        isQuickPick?navigationToDetail(name, address, id):navigationToDetail();
     }
 
     return(
         <TouchableOpacity style={styles.container} onPress={handleNavigate}>
             <Image style={styles.image} resizeMode="cover" source={require('../assets/images/hongtra.png')}></Image>
             <View>
-                <Text style={styles.shopText}>The Cafe Home</Text>
-                <Text style={styles.locationName}>HCM Cao Thắng</Text>
+                <Text style={styles.shopText}>{name}</Text>
+                <Text style={styles.locationName}>{address}</Text>
                 <Text style={styles.distance}>Cách đây 0,01 km</Text>
                 <Text></Text>
             </View>
@@ -32,7 +40,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 20,
         alignItems: 'center',
-        elevation: 4,
+        elevation: 2,
         borderRadius: 10,
         borderWidth: 0.3,
         borderColor: 'lightgrey'

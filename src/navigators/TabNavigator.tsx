@@ -29,12 +29,20 @@ function TabNavigator(): React.JSX.Element {
                     <IconAntDesign name="shoppingcart" size={30} color={focused?'#56A568':'grey'}></IconAntDesign>
                 ),
             }}></Tab.Screen>
-            <Tab.Screen name="Location" component={ShopLocationScreen} options={{
+            <Tab.Screen name="Location" component={ShopLocationScreen}
+            options={{
                 tabBarIcon: ({focused,color,size}) => (
                     <IconIon name="storefront-outline" size={25} color={focused?'#56A568':'grey'}></IconIon>
                 ),
-            }}></Tab.Screen>
-            {/* <Tab.Screen name="Home" component={HomeScreen}></Tab.Screen> */}
+            }}
+            listeners={({ navigation }) => ({
+                tabPress: () => {
+                    navigation.setParams({
+                        isQuickPick: false,
+                    });
+                },
+            })}
+            ></Tab.Screen>
         </Tab.Navigator>
 
     )
