@@ -14,11 +14,12 @@ class radioButtonProp {
     selectedOption : any;
     onPress : any;
     option : string | undefined;
-    price : Number | undefined
+    price : Number | undefined;
+    id?: Number | undefined;
 };
 function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
     const optionPress = () => {
-        prop.onPress(prop.option, prop.price)
+        prop.onPress(prop.option, prop.price, prop.id)
     }
     return (
         <View style = {{flexDirection : 'row', marginTop : 10}}>
@@ -35,6 +36,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
     const {productName, productPrice, size, topping, id} = route.params
     const [selectedOption, setSelectedOption] = useState(size[0][0]);
     const [selectedTopping, setselectedTopping] = useState(topping[0][0]);
+    const [selectedToppingId, setSelectedToppingId] = useState(topping[0][1]);
     const [price, setPrice] = useState(0);
     const [toppingPrice, setToppingPrice] = useState(0);
     const [favorite, setFavorite] = useState(0);
@@ -57,10 +59,11 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         setSelectedOption(option)
         setPrice(price)
     }
-    const handleToppingPress = (topping : string, price : number) => {
+    const handleToppingPress = (topping : string, price : number, id: number) => {
         console.log(topping)
         setselectedTopping(topping)
         setToppingPrice(price)
+        setSelectedToppingId(id)
     } 
     const handlePressBack = () => {
         navigation.goBack();
@@ -69,10 +72,11 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         if(selectedOption == "" || selectedTopping == "")
             return;
 
-        addToCart({"id":id,"price":price,"productName":productName,"variantName":selectedOption})
+        addToCart({"id":id,"price":price,"productName":productName,"variantName":selectedOption}, {"toppingName":selectedTopping, "toppingId":selectedToppingId, "price":toppingPrice})
         Alert.alert(`${cart.length}`);
         navigation.goBack();
     }
+    console.log(cart)
     return (
         <View style = {styles.container}>
             <View style={styles.header}>
@@ -115,7 +119,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                     <View style = {styles.sizeContainer}> 
                         <Text style = {styles.sizeText}>Topping</Text>
                         {[...topping].map((item, index) =>
-                            <RadioButtonChoice key={index} option = {item[0]} price = {item[1]} onPress = {handleToppingPress} selectedOption={selectedTopping}>
+                            <RadioButtonChoice key={index} id={item[2]} option = {item[0]} price = {item[1]} onPress = {handleToppingPress} selectedOption={selectedTopping}>
                                 <Text style = {styles.sizeContentText}>{item[0]} ({item[1].toString()}đ)</Text>
                             </RadioButtonChoice>
                         )}

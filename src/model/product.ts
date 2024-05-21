@@ -13,10 +13,10 @@ export class Product {
 }
 
 const defaultTopping = [
-    ["No topping", 0],
-    ["Topping 1", 5000],
-    ["Topping 2", 10000],
-    ["Topping 3", 15000],
+    ["No topping", 0, 1],
+    ["Topping 1", 5000, 2],
+    ["Topping 2", 10000, 3],
+    ["Topping 3", 15000, 4],
 ]
 
 

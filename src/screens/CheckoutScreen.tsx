@@ -16,9 +16,12 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
     const {deliveryType, setDeliveryType} = useDeliveryStore();
-    const {cart, clearCart} = useCartStore(useMemo(() => (state) => ({
+    const deliveryMoney = 20000;
+    const {cart, clearCart, calculateTotalPrice, getTotalProduct} = useCartStore(useMemo(() => (state) => ({
         cart: state.cart,
         clearCart: state.clearCart,
+        calculateTotalPrice: state.calculateTotalPrice,
+        getTotalProduct: state.getTotalProduct,
     }), []))
     const handlePressThem = () => {
         navigation.navigate('Home')
@@ -32,7 +35,6 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         deliveryBottomSheetRef.current?.close()
         setIsOpenBottomSheet(false)
     }
-
     return(
         <View style={styles.container}>
             <HeaderBar title="Check out"></HeaderBar>
@@ -96,10 +98,13 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                                     <View>
                                         <Text style={styles.textBold}>{item.quantity}x {item.productVariant.productName}</Text>
                                         <Text>{item.productVariant.variantName}</Text>
-                                        
+                                        {
+                                         item.topping?<Text>{item.topping.toppingName}</Text>:""
+                                        }
+                                            
                                     </View>
                                 </View>
-                                <Text style={styles.moneyText}>65.000đ</Text>
+                                <Text style={styles.moneyText}>{item.productVariant.price*item.quantity+(item.topping?item.topping.price:0)}đ</Text>
                             </View>                 
                         )
                     }
@@ -108,11 +113,11 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <Text style={styles.headerText}>Tổng cộng</Text>
                     <View style={[styles.moneySection]}>
                         <Text>Thành tiền</Text>
-                        <Text style={styles.moneyText}>65.000đ</Text>
+                        <Text style={styles.moneyText}>{calculateTotalPrice()}đ</Text>
                     </View>
                     <View style={[styles.moneySection]}>
                         <Text>Phí giao hàng</Text>
-                        <Text style={styles.moneyText}>100.000đ</Text>
+                        <Text style={styles.moneyText}>{deliveryType=="Delivery"?deliveryMoney:0}đ</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -121,9 +126,9 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <View style={[styles.flexDirectionRow]}>
                         <Text style={[styles.whiteText, styles.bigText]}>{deliveryType=="Delivery"?"Giao hàng":"Mang đi"}</Text>
                         <IconEntypo style={[styles.whiteText, styles.bigText]} name="dot-single"></IconEntypo>
-                        <Text style={[styles.whiteText, styles.bigText]}>1 sản phẩm</Text>
+                        <Text style={[styles.whiteText, styles.bigText]}>{getTotalProduct()} sản phẩm</Text>
                     </View>
-                    <Text style={[styles.headerText, styles.whiteText, styles.bigText]}>83.000đ</Text>
+                    <Text style={[styles.headerText, styles.whiteText, styles.bigText]}>{calculateTotalPrice()+(deliveryType=="Delivery"?deliveryMoney:0)}đ</Text>
                 </View>
                 <TouchableOpacity style={styles.orderButton}>
                     <Text style={styles.orderButtonText}>ĐẶT HÀNG</Text>

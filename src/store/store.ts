@@ -13,18 +13,48 @@ export const useCartStore = create(
         (set, get) => ({
             cart: [],
             user: {},
-            addToCart: (productVariant, quantity=1) => {
+            addToCart: (productVariant, topping = null, quantity=1) => {
                 const cart = get().cart;
-                const existingItem = cart.find(item => item.productVariant.id == productVariant.id);
+                const existingItem = cart.find(item => item.productVariant.id == productVariant.id && item.productVariant.variantName == productVariant.variantName && topping?.toppingId == item.topping?.toppingId);
 
                 if (existingItem) {
                     existingItem.quantity += quantity
                 } else {
-                    cart.push({productVariant, quantity, toppings: []});
+                    cart.push({productVariant, quantity, topping});
                 }
                 set({cart});
             },
-            clearCart: () => {set({cart:[]})}
+            clearCart: () => {set({cart:[]})},
+            removeFromCart: (productVariant, topping) => {
+                const cart = get().cart;
+                set({cart:cart.filter(item=> !(item.productVariant.id == productVariant.id && topping?.id == item.topping?.id))})
+            },
+            updateQuantityCart: (productVariant, topping, quantity=1) => {
+                const cart = get().cart;
+                const existingItem = cart.find(item => item.productVariant.id == productVariant.id && item.productVariant.variantName == productVariant.variantName && topping?.toppingId == item.topping?.toppingId);
+
+                if (existingItem) {
+                    existingItem.quantity = quantity
+                } else {
+                    cart.push({productVariant, quantity, topping});
+                }
+                set({cart});
+            },
+            calculateTotalPrice: () => {
+                const cart = get().cart;
+                return cart.reduce((total, item)=>{
+                    const itemTotal = item.productVariant.price * item.quantity;
+                    const toppingPrice = item.topping? item.topping.price:0;
+                    return total + itemTotal + toppingPrice;
+                }, 0);
+            },
+            getTotalProduct: () => {
+                const cart = get().cart;
+                return cart.reduce((total, item)=>{
+                    const totalItem = item.quantity;
+                    return total + totalItem;
+                }, 0);
+            }
         }),
         {
             name: 'cart-storage',
