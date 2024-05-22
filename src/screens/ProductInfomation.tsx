@@ -82,7 +82,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         <View style = {styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={handlePressBack}>
-                    <Icon style={styles.icon} name='left'></Icon>
+                    <Icon style={styles.radioButtonIcon} name='left'></Icon>
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Thông tin sản phẩm</Text>
             </View>
