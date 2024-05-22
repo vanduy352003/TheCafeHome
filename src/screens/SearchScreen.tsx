@@ -13,7 +13,8 @@ import { Product, productList } from '../model/product';
 
 
 
-function SearchScreen({navigation}: any): React.JSX.Element {
+function SearchScreen({navigation, route}: any): React.JSX.Element {
+  const {products} = route.params
   const [searchText, setSearchText] = useState('');
   const handlePressCancel = () => {
     navigation.goBack();
@@ -40,10 +41,10 @@ function SearchScreen({navigation}: any): React.JSX.Element {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.listProduct}>
-        {[...productList].map((item, index) => (
+        {[...products].map((item, index) => (
           <ProductCardThree
             key={index}
-            product={productList[index]}
+            product={{"productId": item.productId, "productName":item.productName, "imageUrl":item.imageUrl, "description":item.description, "category":item.category, "productVariant":item.productVariant, "toppings": item.toppings}}
             navigateToDetail={handlePressCard}></ProductCardThree>
         ))}
       </ScrollView>

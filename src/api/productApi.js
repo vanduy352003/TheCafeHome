@@ -1,10 +1,11 @@
+import axios from "axios";
+
 export const getAllProduct = async () => {
     try {
-        const response = await fetch(
+        const response = await axios.get(
             'http://localhost:8080/api/product'
         );
-        const json = await response.json();
-        return json.body
+        return response.data.body
     } catch (error) {
         return console.log(error)
     }

@@ -10,6 +10,7 @@ import {
 import {Product} from '../model/product';
 import Icon from 'react-native-vector-icons/Entypo';
 import DetailButton from './DetailButton';
+import { formatMoney } from '../utils/format';
 
 const window = Dimensions.get('window');
 
@@ -29,7 +30,7 @@ function ProductCardOne({product, navigateToDetail}: productProp): React.JSX.Ele
         />
         <Text style={styles.productName}>{product.productName}</Text>
         <View style={styles.cardViewItem}>
-          <Text style={styles.productPrice}>{product.productPrice}</Text>
+          <Text style={styles.productPrice}>{formatMoney(product.productVariant[0]?product.productVariant[0].price:0)}đ</Text>
           <TouchableOpacity style={styles.addButton}>
             <Icon name="plus" size={24} color="white"></Icon>
           </TouchableOpacity>

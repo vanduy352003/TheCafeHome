@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import { useCartStore } from '../store/store';
+import { formatMoney } from '../utils/format';
 
 
 const window = Dimensions.get('window');
@@ -33,10 +34,10 @@ function RadioButtonChoice(prop : radioButtonProp): React.JSX.Element {
 
 
 function ProductInfomation({route, navigation} : any) : React.JSX.Element {
-    const {productName, productPrice, size, topping, id} = route.params
-    const [selectedOption, setSelectedOption] = useState(size[0][0]);
-    const [selectedTopping, setselectedTopping] = useState(topping[0][0]);
-    const [selectedToppingId, setSelectedToppingId] = useState(topping[0][1]);
+    const {productId, productName, imageUrl, description, productVariant, toppings} = route.params
+    const [selectedOption, setSelectedOption] = useState();
+    const [selectedTopping, setselectedTopping] = useState();
+    const [selectedToppingId, setSelectedToppingId] = useState();
     const [price, setPrice] = useState(0);
     const [toppingPrice, setToppingPrice] = useState(0);
     const [favorite, setFavorite] = useState(0);
@@ -72,11 +73,11 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         if(selectedOption == "" || selectedTopping == "")
             return;
 
-        addToCart({"id":id,"price":price,"productName":productName,"variantName":selectedOption}, {"toppingName":selectedTopping, "toppingId":selectedToppingId, "price":toppingPrice})
+        addToCart({"id":productId,"price":price,"productName":productName,"variantName":selectedOption}, {"toppingName":selectedTopping, "toppingId":selectedToppingId, "price":toppingPrice})
         Alert.alert(`${cart.length}`);
         navigation.goBack();
     }
-    console.log(cart)
+    console.log(imageUrl)
     return (
         <View style = {styles.container}>
             <View style={styles.header}>
@@ -87,7 +88,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
             </View>
             <ScrollView>
                 <View style = {styles.topContainer}>
-                    <Image style = {styles.categoryImage} source={require('../assets/images/hongtra.png')}/>
+                    <Image style = {styles.categoryImage} source={imageUrl?{uri:imageUrl}:require('../assets/images/hongtra.png')}/>
                 </View>
                 <View style = {styles.bottomContainer}>
                     <View style = {styles.informationContainer}>
@@ -103,14 +104,14 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                             </View>
                         </View>
                         <View>
-                            <Text style = {styles.productPrice}>{productPrice}</Text>
+                            <Text style = {styles.productPrice}>{formatMoney(productVariant[0]?productVariant[0].price:0)}</Text>
                         </View>
                     </View>
                     <View style = {styles.sizeContainer}> 
                         <Text style = {styles.sizeText}>Size</Text>
-                        {[...size].map((item, index) =>
-                            <RadioButtonChoice key={index} option = {item[0]} price = {item[1]} onPress = {handleOptionPress} selectedOption={selectedOption}>
-                                <Text style = {styles.sizeContentText}>{item[0]} ({item[1].toString()}đ)</Text>
+                        {[...productVariant].map((item, index) =>
+                            <RadioButtonChoice key={item.id} option = {item.variant.variantName} price = {item.price} onPress = {handleOptionPress} selectedOption={selectedOption}>
+                                <Text style = {styles.sizeContentText}>{item.variant.variantName} ({formatMoney(item.price)}đ)</Text>
                             </RadioButtonChoice>
                         )}
                     </View>
@@ -118,9 +119,9 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                     
                     <View style = {styles.sizeContainer}> 
                         <Text style = {styles.sizeText}>Topping</Text>
-                        {[...topping].map((item, index) =>
-                            <RadioButtonChoice key={index} id={item[2]} option = {item[0]} price = {item[1]} onPress = {handleToppingPress} selectedOption={selectedTopping}>
-                                <Text style = {styles.sizeContentText}>{item[0]} ({item[1].toString()}đ)</Text>
+                        {[...toppings].map((item, index) =>
+                            <RadioButtonChoice key={item.toppingId} id={item.toppingId} option = {item.toppingName} price = {item.price} onPress = {handleToppingPress} selectedOption={selectedTopping}>
+                                <Text style = {styles.sizeContentText}>{item.toppingName} ({formatMoney(item.price)}đ)</Text>
                             </RadioButtonChoice>
                         )}
                     </View>

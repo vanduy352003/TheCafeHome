@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ScrollView,
@@ -11,6 +12,8 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 
 import CategoryCard from './CategoryCard';
+import { useEffect, useState } from 'react';
+import { getAllCategory } from '../api/categoryApi';
 
 const categoryList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -33,6 +36,9 @@ type categoryProp = {
 }
 
 function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): React.JSX.Element {
+  const [categories, setCategories] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handlePressSearch = () => {
     navigateToSearch()
   }
@@ -40,6 +46,15 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
   const handlePressFavorite = () => {
     navigateToFavorite()
   }
+
+  useEffect(() => {
+    setIsLoading(true);
+    getAllCategory().then(data => {
+      setIsLoading(false);
+      setCategories(data);
+    });
+  }, []);
+
   return (
     <View style={styles.categorySection}>
       <View style={styles.viewItem}>
@@ -60,7 +75,7 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
         showsHorizontalScrollIndicator={false}
         >
         <FlatList
-          data={categoryList}
+          data={categories}
           numColumns={Math.ceil(categoryList.length / 2)}
           directionalLockEnabled={true}
           alwaysBounceVertical={false}
@@ -77,14 +92,19 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
                 ]}>
                 <Image
                   style={styles.categoryImage}
-                  source={require('../assets/images/hongtra.png')}
+                  source={{uri:itemData.item.imageUrl}}
                 />
-                <Text style={styles.categoryName}>{itemData.item.name}</Text>
+                <Text style={styles.categoryName}>{itemData.item.categoryName}</Text>
               </TouchableOpacity>
             );
           }}
-          keyExtractor={(item, index) => index.toString()}></FlatList>
+          keyExtractor={(item, index) => item.categoryId}></FlatList>
       </ScrollView>
+      {isLoading && (
+        <View style={[styles.loadingIndicator]}>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
     </View>
   );
 }
@@ -151,7 +171,15 @@ const styles = StyleSheet.create({
   },
   scrollIndicator: {
     width: 10
-  }
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export default CategorySection;
