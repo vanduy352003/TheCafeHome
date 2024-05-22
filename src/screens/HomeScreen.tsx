@@ -12,13 +12,14 @@ import CategorySection from '../components/CategorySection';
 import ProductHorizontalSection from '../components/ProductHorizontalSection';
 import HeaderBar from '../components/HeaderBar';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
-import {Product, productList} from '../model/product';
 import {getAllProduct} from '../api/productApi';
 import {getAllCategory} from '../api/categoryApi';
+import { FlatList } from 'react-native-gesture-handler';
 
 function HomeScreen({navigation}: any): React.JSX.Element {
   const tabBarHeight = useBottomTabBarHeight();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const handlePressCard = (product: Product) => {
     navigation.push('Detail', {...product});
@@ -41,6 +42,11 @@ function HomeScreen({navigation}: any): React.JSX.Element {
       setIsLoading(false);
       setProducts(data);
     });
+    setIsLoading(true);
+    getAllCategory().then(data => {
+      setIsLoading(false);
+      setCategories(data);
+    });
   }, []);
   return (
     <View style={{paddingBottom: tabBarHeight}}>
@@ -56,21 +62,42 @@ function HomeScreen({navigation}: any): React.JSX.Element {
         <View style={styles.container}>
           <Text style={styles.header}>Mua ngay kẻo hết</Text>
           <ProductHorizontalSection
-            products={productList}
+            products={products}
             navigateToDetail={handlePressCard}></ProductHorizontalSection>
           <Text style={styles.header}>Danh mục sản phẩm</Text>
           <CategorySection
             navigateToFavorite={handlePressFavorite}
             navigateToSearch={handlePressSearch}></CategorySection>
-          <Text style={styles.header}>Sản phẩm ưu đãi</Text>
-          <View style={styles.productList}>
-            {[...products].map((item, index) => (
-              <ProductCardOne
-                key={index}
-                product={{"productId": item.productId, "productName":item.productName, "imageUrl":item.imageUrl, "description":item.description, "category":item.category, "productVariant":item.productVariant, "toppings": item.toppings}}
-                navigateToDetail={handlePressCard}></ProductCardOne>
-            ))}
-          </View>
+            <ScrollView horizontal={true}
+              scrollEnabled={false}>
+              <FlatList
+                data={categories}
+                renderItem={itemData => {
+                  return (
+                    <View>
+                      <Text style={styles.header}>{itemData.item.categoryName}</Text>
+                      <FlatList
+                        data={products.filter(
+                          product => product.category.categoryId === itemData.item.categoryId
+                        )}
+                        numColumns={2}
+                        renderItem={itemData => {
+                          const productStyle = itemData.index == 1?styles.productRightColumn : {};
+                          return(
+                            <View style={productStyle}>
+                                <ProductCardOne
+                                  product={{"productId": itemData.item.productId, "productName":itemData.item.productName, "imageUrl":itemData.item.imageUrl, "description":itemData.item.description, "category":itemData.item.category, "productVariant":itemData.item.productVariant, "toppings": itemData.item.toppings}}
+                                  navigateToDetail={handlePressCard}></ProductCardOne>
+                            </View>
+                          )
+                        }}
+                        keyExtractor={(item, index) => item.productId}></FlatList>
+                    </View>
+                  );
+                }}
+                keyExtractor={(item, index) => item.categoryId}>
+              </FlatList>
+            </ScrollView>
         </View>
       </ScrollView>
       {isLoading && (
@@ -119,6 +146,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  productRightColumn: {
+    marginLeft: 10
+  }
 });
 
 export default HomeScreen;

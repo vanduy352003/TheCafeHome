@@ -92,7 +92,7 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
                 ]}>
                 <Image
                   style={styles.categoryImage}
-                  source={{uri:itemData.item.imageUrl}}
+                  source={itemData.item.imageUrl?{uri:itemData.item.imageUrl}:require('../assets/images/hongtra.png')}
                 />
                 <Text style={styles.categoryName}>{itemData.item.categoryName}</Text>
               </TouchableOpacity>

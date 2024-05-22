@@ -10,6 +10,7 @@ import {
 import IconFeather from 'react-native-vector-icons/Feather';
 import ProductCardThree from '../components/ProductCardThree';
 import { Product, productList } from '../model/product';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
@@ -38,16 +39,19 @@ function SearchScreen({navigation, route}: any): React.JSX.Element {
           <Text style={styles.cancelText}>Hủy</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.listProduct}>
-        {[...products].map((item, index) => (
-          <ProductCardThree
-            key={index}
-            product={{"productId": item.productId, "productName":item.productName, "imageUrl":item.imageUrl, "description":item.description, "category":item.category, "productVariant":item.productVariant, "toppings": item.toppings}}
-            navigateToDetail={handlePressCard}></ProductCardThree>
-        ))}
-      </ScrollView>
+      <View style={styles.listProduct}>
+        <FlatList
+          data={products.filter(product => product.productName.toLowerCase().includes(searchText.toLowerCase()))}
+          renderItem={itemData => {
+            return(
+              <ProductCardThree
+                product={{"productId": itemData.item.productId, "productName":itemData.item.productName, "imageUrl":itemData.item.imageUrl, "description":itemData.item.description, "category":itemData.item.category, "productVariant":itemData.item.productVariant, "toppings": itemData.item.toppings}}
+                navigateToDetail={handlePressCard}></ProductCardThree>
+            )
+          }}
+          keyExtractor={(item, index) => item.productId}
+        ></FlatList>
+      </View>
     </View>
   );
 }
