@@ -26,7 +26,7 @@ function ProductCardOne({product, navigateToDetail}: productProp): React.JSX.Ele
         <Image
           style={styles.productImage}
           resizeMode="cover"
-          source={require('../assets/images/hongtra.png')}
+          source={product.imageUrl?{uri:product.imageUrl}:require('../assets/images/hongtra.png')}
         />
         <Text style={styles.productName}>{product.productName}</Text>
         <View style={styles.cardViewItem}>
