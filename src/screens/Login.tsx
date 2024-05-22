@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { handleLogin } from "../api/loginApi";
 import Icon from "react-native-vector-icons/AntDesign"
 
 function Login({navigation} : any) : React.JSX.Element {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [passWord, setPassword] = useState("");
     const tryLogin = () => {
-        Alert.alert(phoneNumber)
-        Alert.alert(passWord)
+        handleLogin(phoneNumber, passWord, navigation);
     }
     const handlePressBack = () => {
         navigation.goBack();

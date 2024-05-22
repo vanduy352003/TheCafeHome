@@ -1,14 +1,23 @@
 import { useState } from "react"
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import Icon from "react-native-vector-icons/AntDesign"
+import { handleSignUp } from "../api/signupApi"
 
 function SignUp({navigation} : any) : React.JSX.Element {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
-    const [passWord, setPassword] = useState("")
+    const [password, setPassword] = useState("")
+    const [retypePassword, setRetypePassword] = useState("")
     const handlePressBack = () => {
         navigation.goBack();
+    }
+    const handleSignUpButton = () => {
+        if(phoneNumber != "" && password != "" && password == retypePassword)
+            handleSignUp(phoneNumber, password, navigation);
+        else {
+            Alert.alert("Thông tin không hợp lệ");
+        }
     }
     return (
         <View style = {{flex:1}}>
@@ -21,14 +30,14 @@ function SignUp({navigation} : any) : React.JSX.Element {
             <View style = {styles.container} >
                 <TextInput style = {styles.input} placeholder="Nhập tên của bạn"></TextInput>
                 <TextInput style = {styles.input} placeholder="Nhập họ của bạn"></TextInput>
-                <TextInput style = {styles.input} placeholder="Số điện thoại"></TextInput>
-                <TextInput style = {styles.input} secureTextEntry={true} placeholder="Nhập mật khẩu"></TextInput>
-                <TextInput style = {styles.input} secureTextEntry={true} placeholder="Nhập lại mật khẩu"></TextInput>
+                <TextInput style = {styles.input} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)}  placeholder="Số điện thoại"></TextInput>
+                <TextInput style = {styles.input} value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} placeholder="Nhập mật khẩu"></TextInput>
+                <TextInput style = {styles.input} value={retypePassword} onChangeText={(text) => setRetypePassword(text)} secureTextEntry={true} placeholder="Nhập lại mật khẩu"></TextInput>
                 
-                <TouchableOpacity style = {styles.button}>
+                <TouchableOpacity style = {styles.button} onPress={handleSignUpButton}>
                     <Text style = {{fontSize : 15, alignSelf : "center", color : "white"}}> Tạo tài khoản </Text>
                 </TouchableOpacity>
-            </View>
+            </View> 
         </View>
     )
 }
