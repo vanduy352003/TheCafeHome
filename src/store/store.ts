@@ -48,7 +48,7 @@ export const useCartStore = create(
                 const cart = get().cart;
                 return cart.reduce((total, item)=>{
                     const itemTotal = item.productVariant.price * item.quantity;
-                    const toppingPrice = item.topping? item.topping.price:0;
+                    const toppingPrice = (item.topping? item.topping.price:0)*item.quantity;
                     return total + itemTotal + toppingPrice;
                 }, 0);
             },
