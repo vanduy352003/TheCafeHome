@@ -12,8 +12,8 @@ const window = Dimensions.get('window');
 
 const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
   const tabBarHeight = useBottomTabBarHeight();
-  const {onClose, handleQuickPick} = props;
-  const {deliveryType, setDeliveryType, takeAwayAddress, deliveryAdress} = useDeliveryStore();
+  const {onClose, handleQuickPick, handlePressToUserAddress} = props;
+  const {deliveryType, setDeliveryType, takeAwayAddress, deliveryAddress} = useDeliveryStore();
   const snapPoints = useMemo(() => [tabBarHeight + 200], []);
   const handlePressClose = () => {
     if (onClose) onClose();
@@ -55,7 +55,7 @@ const LocationBottomSheet = forwardRef<Ref>((props, ref) => {
             onPress={() => {
               setDeliveryType('Delivery');
               handlePressClose();
-              console.log("Di toi trang nhap dia chi")
+              Object.keys(deliveryAddress).length == 0?handlePressToUserAddress():""
             }}>
             <Text>Sửa</Text>
           </TouchableOpacity>

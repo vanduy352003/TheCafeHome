@@ -25,10 +25,14 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
 
     }
 
+    const handlePressBack = () => {
+        navigation.navigate("Cart")
+    }
+
     return(
         <View style={styles.container}>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handlePressBack}>
                   <Icon style={styles.icon} name='left'></Icon>
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Thêm địa chỉ mới</Text>

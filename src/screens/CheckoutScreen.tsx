@@ -29,8 +29,11 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     const handlePressThem = () => {
         navigation.navigate('Home')
     }
-    const handlePressChangeAddress = () => {
+    const handlePressToShopLocation = () => {
         navigation.navigate("Location", {isQuickPick:true})
+    }
+    const handlePressToUserAddress = () => {
+        navigation.navigate("UserAddress")
     }
 
     const handlePressDelivery = () => {
@@ -81,7 +84,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                                 <Text style={[styles.textBold, styles.mb5]}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.name}</Text>
                                 <Text style={styles.addressText} numberOfLines={1}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.address}</Text>
                             </View>
-                            <TouchableOpacity style={styles.addressButton} onPress={handlePressChangeAddress}>
+                            <TouchableOpacity style={styles.addressButton} onPress={deliveryType=="Delivery"?handlePressToUserAddress:handlePressToShopLocation}>
                                 <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>
                             </TouchableOpacity>
                         </View>
@@ -159,7 +162,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                 </TouchableOpacity>
             </View>
             {isOpenBottomSheet && <View style={styles.overlay}><TouchableWithoutFeedback style={{height: '100%'}} onPress={handlePressCloseDelivery}></TouchableWithoutFeedback></View>}
-            <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery} handleQuickPick={handlePressChangeAddress}></LocationBottomSheet>
+            <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery} handleQuickPick={handlePressToShopLocation} handlePressToUserAddress={handlePressToUserAddress}></LocationBottomSheet>
         </View>
     )
 }
