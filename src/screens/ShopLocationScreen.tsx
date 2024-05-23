@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import IconFeather  from "react-native-vector-icons/Feather";
 import LocationCard from "../components/LocationCard";
@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useFocusEffect } from "@react-navigation/native";
 import { useDeliveryStore } from "../store/store";
+import { FlatList } from "react-native-gesture-handler";
+import { getAllLocation } from "../api/locationApi";
 
 const locationList = [
   {name: 'DHSPKT1', address: "So 1 VVN", id: 1},
@@ -21,7 +23,16 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
     const [searchText, setSearchText] = useState('');
     const bottomTabHight = useBottomTabBarHeight();
     const {takeAwayAddress, setTakeAwayAddress} = useDeliveryStore();
-
+    const [locations, setLocations] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    useEffect(()=>{
+      setIsLoading(true)
+      getAllLocation().then(data=>{
+        setIsLoading(false)
+        setLocations(data)
+      })
+    },[])
+    
     const handleNavigate = () => {
       navigation.push("LocationDetail")
     }
@@ -42,15 +53,25 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
                 </TouchableOpacity>
             </View>
             <Text style={styles.header}>Danh sách cửa hàng</Text>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={[styles.listLocation, {marginBottom: bottomTabHight}]}>
-                {
-                    (locationList).map((item, index) => 
-                        <LocationCard isQuickPick={isQuickPick} name={item.name} address={item.address} id={item.id} navigationToDetail={isQuickPick?handleQuickPick:handleNavigate} key={index}></LocationCard>
+            {locations.length > 0 &&
+              <View style={[styles.listLocation, {marginBottom: bottomTabHight}]}>
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  data={locations.filter(location=>location.locationAddress.toLowerCase().includes(searchText.toLowerCase()))}
+                  renderItem={itemData => {
+                    return(
+                      <LocationCard isQuickPick={isQuickPick} name={itemData.item.locationName} address={itemData.item.locationAddress} id={itemData.item.locationId} navigationToDetail={isQuickPick?handleQuickPick:handleNavigate}></LocationCard>
                     )
-                }
-            </ScrollView>
+                  }}
+                  keyExtractor={(item, index) => item.locationId.toString()}
+                ></FlatList>
+              </View>
+            }
+            {isLoading && (
+              <View style={[styles.loadingIndicator]}>
+                <ActivityIndicator size="large" />
+              </View>
+            )}
         </View>
     )
 }
@@ -98,7 +119,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 10,
         marginTop: 10
-      }
+      },
+      loadingIndicator: {
+        position: 'absolute',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        width: '100%',
+        height: '100%',
+      },
 })
 
 export default ShopLocationScreen;
