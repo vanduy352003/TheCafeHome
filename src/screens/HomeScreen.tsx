@@ -25,8 +25,8 @@ function HomeScreen({navigation}: any): React.JSX.Element {
     navigation.push('Detail', {...product});
   };
 
-  const handlePressSearch = () => {
-    navigation.push('Search', {products:products});
+  const handlePressSearch = (productList) => {
+    navigation.push('Search', {products:productList});
   };
 
   const handlePressFavorite = () => {

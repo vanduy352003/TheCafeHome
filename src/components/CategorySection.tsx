@@ -14,6 +14,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import CategoryCard from './CategoryCard';
 import { useEffect, useState } from 'react';
 import { getAllCategory } from '../api/categoryApi';
+import { getAllProduct } from '../api/productApi';
 
 const categoryList = [
   {name: 'Trà sữa', price: 10, id: '1'},
@@ -37,10 +38,11 @@ type categoryProp = {
 
 function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): React.JSX.Element {
   const [categories, setCategories] = useState();
+  const [products, setProducts] = useState()
   const [isLoading, setIsLoading] = useState(false);
 
-  const handlePressSearch = () => {
-    navigateToSearch()
+  const handlePressSearch = (productList) => {
+    navigateToSearch(productList)
   }
 
   const handlePressFavorite = () => {
@@ -53,12 +55,23 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
       setIsLoading(false);
       setCategories(data);
     });
+    setIsLoading(true);
+    getAllProduct().then(data => {
+      setIsLoading(false);
+      setProducts(data);
+    });
   }, []);
+
+  const getProductByCategory = (categoryId) => {
+    return products.filter(
+      product => product.category.categoryId === categoryId
+    )
+  }
 
   return (
     <View style={styles.categorySection}>
       <View style={styles.viewItem}>
-        <TouchableOpacity style={styles.searchBar} onPress={handlePressSearch}>
+        <TouchableOpacity style={styles.searchBar} onPress={()=>handlePressSearch(products)}>
           <IconFeather style={styles.searchIcon} name="search"></IconFeather>
           <Text style={styles.searchText}>Tìm kiếm</Text>
         </TouchableOpacity>
@@ -82,6 +95,7 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
           renderItem={itemData => {
             return (
               <TouchableOpacity
+                onPress={()=>handlePressSearch(getProductByCategory(itemData.item.categoryId))}
                 style={[
                   styles.categoryItem,
                   itemData.index > 0
