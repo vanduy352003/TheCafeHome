@@ -1,28 +1,31 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { User } from "../model/user"
-import { getCurrentUser, handleLogout } from "../api/loginApi"
+import { getCurrentUser, handleDeleteUser, handleLogout } from "../api/loginApi"
 import Icon from "react-native-vector-icons/AntDesign";
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+<<<<<<< HEAD
+import { handleUpdate } from "../api/signupApi";
+=======
 import { useCartStore } from "../store/store";
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
 
 class ItemProps {
     leftContent: string;
     rightContent: string;
+    setRightContent: any;
+    secureTextEntry : boolean;
     constructor() {
         this.leftContent = "";
         this.rightContent = "";
+        this.secureTextEntry = false;
     }
 }
 function DetailItem(prop : ItemProps) : React.JSX.Element {
     return (
         <View style = {itemStyles.container}>
-            <View style = {itemStyles.left}>
-                <Text style = {itemStyles.leftText}>{prop.leftContent}</Text>
-            </View>
-            <View style = {itemStyles.right}>
-                <Text style = {itemStyles.rightText}>{prop.rightContent}</Text>
-            </View>
+            <Text style = {itemStyles.leftText}>{prop.leftContent}</Text>
+            <TextInput style = {itemStyles.textBox} value={prop.rightContent} onChangeText={(text) => {prop.setRightContent(text)}} secureTextEntry={prop.secureTextEntry}></TextInput>
         </View>
     )
 }
@@ -30,16 +33,14 @@ const blackRGB = "#202020"
 const itemStyles = StyleSheet.create({
     container : {
         backgroundColor : "white",
-        flexDirection : "row",
-        alignItems : "center",
-        borderBottomWidth : 1
+        paddingHorizontal : 15,
     },
     left : {
         flex : 1,
         justifyContent : "center",
         alignItems : "flex-start",
         paddingHorizontal : 10,
-        paddingVertical : 10
+        paddingVertical : 10,
     },
     right : {
         flex : 1,
@@ -49,22 +50,40 @@ const itemStyles = StyleSheet.create({
         paddingVertical : 10
     },
     leftText : {
-        fontSize : 18,
+        fontSize : 12,
         color : blackRGB,
+        marginBottom : 5,
+        marginTop : 10
     },
-    rightText : {
-        fontSize : 18,
+    textBox : {
         color : blackRGB,
+        borderWidth : 1,
+        borderRadius : 5,
+        padding : 5,
+        fontSize : 15,
     }
 })
 
 export default function UserInformationScreen({navigation} : any) : React.JSX.Element {
+<<<<<<< HEAD
+    
+    const user = getCurrentUser()
+    const [lastname, setLastname] = useState(user.lastname);
+    const [firstname, setFirstname] = useState(user.firstname);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [password, setPassword] = useState("");
+    const handleDeleteUserButton = () => {
+        handleDeleteUser(user.username, password, navigation);
+    }
+=======
     const {clearCart} = useCartStore();
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
     const handlePressBack = () => {
         navigation.goBack();
     }
-    
-    const user = getCurrentUser()
+    const handleUpdateButton = () => {
+        handleUpdate(user.username, phoneNumber, firstname, lastname, navigation);
+    }
     return (
         <ScrollView>
             <View style = {styles.headerContainer}>
@@ -73,16 +92,30 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Thông tin cá nhân</Text>
             </View>
+<<<<<<< HEAD
+            <DetailItem leftContent="Họ và tên đệm " setRightContent={setLastname} rightContent={lastname} secureTextEntry={false}></DetailItem>
+            <DetailItem leftContent="Tên " setRightContent={setFirstname} rightContent={firstname}  secureTextEntry={false}></DetailItem>
+            <DetailItem leftContent="Số điện thoại " setRightContent={setPhoneNumber} rightContent={phoneNumber} secureTextEntry={false}></DetailItem>
+            <DetailItem leftContent="Nhập mật khẩu " setRightContent={setPassword} rightContent={password} secureTextEntry={true}></DetailItem>
+            <View style = {{backgroundColor : "white"}}>
+                <TouchableOpacity style = {styles.updateButton} onPress={handleUpdateButton}>
+                    <Text style = {styles.logoutButtonContent}> Lưu thay đổi </Text>
+                </TouchableOpacity>
+            </View>
+            <View style = {{backgroundColor : "white"}}>
+                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation)}}>
+=======
             <DetailItem leftContent="Họ và tên đệm " rightContent={user.lastname}></DetailItem>
             <DetailItem leftContent="Tên " rightContent={user.firstname}></DetailItem>
             <DetailItem leftContent="Số điện thoại " rightContent={user.phoneNumber}></DetailItem>
             <View>
                 <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation);clearCart()}}>
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
                     <Text style = {styles.logoutButtonContent}> Đăng xuất</Text>
                 </TouchableOpacity>
             </View>
-            <View>
-                <TouchableOpacity style = {styles.deleteButton}>
+            <View style = {{backgroundColor : "white"}}>
+                <TouchableOpacity style = {styles.deleteButton} onPress={handleDeleteUserButton}>
                     <Text style = {styles.logoutButtonContent}> Xoá tài khoản </Text>
                 </TouchableOpacity>
             </View>
@@ -116,13 +149,24 @@ const styles = StyleSheet.create({
         backgroundColor : '#56a568',
         alignSelf : "center",
         alignItems : "center",
-        marginVertical : 10,
+        marginBottom : 10,
+        marginTop : 10,
+        padding : 10,
+        borderRadius : 10
+    },
+    updateButton : {
+        width : "90%",
+        backgroundColor : '#56a568',
+        alignSelf : "center",
+        alignItems : "center",
+        marginBottom : 10,
+        marginTop : 20,
         padding : 10,
         borderRadius : 10
     },
     logoutButtonContent : {
         color : "white",
-        fontSize : 18
+        fontSize : 15
     },
     
     deleteButton : {

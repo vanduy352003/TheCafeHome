@@ -98,7 +98,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
 
     return(
         <View style={styles.container}>
-            <HeaderBar title="Check out"></HeaderBar>
+            <HeaderBar title="Check out" navigation={navigation}></HeaderBar>
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <View style={styles.headerSection}>
                     <TouchableOpacity style={styles.clearCart} onPress={clearCart}>
