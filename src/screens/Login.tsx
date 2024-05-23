@@ -4,10 +4,12 @@ import { handleLogin } from "../api/loginApi";
 import Icon from "react-native-vector-icons/AntDesign"
 
 function Login({navigation} : any) : React.JSX.Element {
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [username, setUsername] = useState("");
     const [passWord, setPassword] = useState("");
     const tryLogin = () => {
-        handleLogin(phoneNumber, passWord, navigation);
+        handleLogin(username, passWord, navigation);
+        setUsername("")
+        setPassword("")
     }
     const handlePressBack = () => {
         navigation.goBack();
@@ -24,9 +26,9 @@ function Login({navigation} : any) : React.JSX.Element {
                 <Text style = {{fontSize : 20, alignSelf : "center", marginBottom : 20}}>
                     Đăng nhập
                 </Text>
-                <TextInput placeholder="Số điện thoại" style = {styles.phonenumberInput} value={phoneNumber} onChangeText={(text : string) => {setPhoneNumber(text)}}>
+                <TextInput placeholder="Tên đăng nhập" style = {styles.phonenumberInput} value={username} onChangeText={(text : string) => {setUsername(text)}}>
                 </TextInput>
-                <TextInput placeholder="Mật khẩu" style = {styles.passwordInput} value={passWord} onChangeText={(text : string) => {setPassword(text)}}>
+                <TextInput placeholder="Mật khẩu" style = {styles.passwordInput} value={passWord} onChangeText={(text : string) => {setPassword(text)}} secureTextEntry={true}>
                     
                 </TextInput>
                 <TouchableOpacity style = {styles.button} onPress={tryLogin}>

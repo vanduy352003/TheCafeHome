@@ -42,7 +42,7 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
     }
     return(
         <View>
-            <HeaderBar title="Cửa hàng"></HeaderBar>
+            <HeaderBar navigation={navigation} title="Cửa hàng"></HeaderBar>
             <View style={styles.searchSection}>
                 <View style={styles.searchBar}>
                 <IconFeather style={styles.searchIcon} name="search"></IconFeather>
