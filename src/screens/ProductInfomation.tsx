@@ -124,7 +124,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                             </View>
                         </View>
                         <View>
-                            <Text style = {styles.productPrice}>{formatMoney(productVariant[0]?productVariant[0].price:0)}</Text>
+                            <Text style = {styles.productPrice}>{formatMoney(productVariant[0]?productVariant[0].price:0)}đ</Text>
                         </View>
                     </View>
                     <View style = {styles.sizeContainer}> 

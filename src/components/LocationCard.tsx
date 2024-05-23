@@ -23,7 +23,7 @@ function LocationCard({navigationToDetail, name, address, id, isQuickPick}:locat
             <Image style={styles.image} resizeMode="cover" source={require('../assets/images/hongtra.png')}></Image>
             <View>
                 <Text style={styles.shopText}>{name}</Text>
-                <Text style={styles.locationName}>{address}</Text>
+                <Text numberOfLines={2} style={styles.locationName}>{address}</Text>
                 <Text style={styles.distance}>Cách đây 0,01 km</Text>
                 <Text></Text>
             </View>
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '400',
         color: 'black',
-        marginBottom: 10
+        marginBottom: 10,
+        width: 250
     },
     distance: {
         fontSize: 18,

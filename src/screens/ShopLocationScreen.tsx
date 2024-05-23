@@ -48,9 +48,6 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
                 <IconFeather style={styles.searchIcon} name="search"></IconFeather>
                 <TextInput style={styles.input} placeholder="Tìm kiếm" value={searchText} onChangeText={(text)=>setSearchText(text)}></TextInput>
                 </View>
-                <TouchableOpacity>
-                    <Text>Bản đồ</Text>
-                </TouchableOpacity>
             </View>
             <Text style={styles.header}>Danh sách cửa hàng</Text>
             {locations.length > 0 &&

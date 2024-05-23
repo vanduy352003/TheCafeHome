@@ -16,29 +16,14 @@ import { useEffect, useState } from 'react';
 import { getAllCategory } from '../api/categoryApi';
 import { getAllProduct } from '../api/productApi';
 
-const categoryList = [
-  {name: 'Trà sữa', price: 10, id: '1'},
-  {name: 'Trà sữa đào', price: 20, id: '2'},
-  {name: 'Trà sữa matcha', price: 30, id: '3'},
-  {name: 'Trà sữa cam', price: 40, id: '4'},
-  {name: 'Cà phê trà', price: 50, id: '5'},
-  {name: 'Cà phê sửa', price: 60, id: '6'},
-  {name: 'Trà sữa', price: 10, id: '1'},
-  {name: 'Trà sữa đào', price: 20, id: '2'},
-  {name: 'Trà sữa matcha', price: 30, id: '3'},
-  {name: 'Trà sữa cam', price: 40, id: '4'},
-  {name: 'Cà phê trà', price: 50, id: '5'},
-  {name: 'Cà phê sửa', price: 60, id: '6'},
-];
-
 type categoryProp = {
   navigateToSearch: Function;
   navigateToFavorite: Function;
 }
 
 function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): React.JSX.Element {
-  const [categories, setCategories] = useState();
-  const [products, setProducts] = useState()
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePressSearch = (productList) => {
@@ -69,6 +54,7 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
   }
 
   return (
+    
     <View style={styles.categorySection}>
       <View style={styles.viewItem}>
         <TouchableOpacity style={styles.searchBar} onPress={()=>handlePressSearch(products)}>
@@ -81,39 +67,41 @@ function CategorySection({navigateToFavorite, navigateToSearch}: categoryProp): 
             name="favorite-border"></IconMaterialIcons>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        horizontal={true}
-        directionalLockEnabled={true}
-        alwaysBounceVertical={false}
-        showsHorizontalScrollIndicator={false}
-        >
-        <FlatList
-          data={categories}
-          numColumns={Math.ceil(categoryList.length / 2)}
+      {!isLoading && categories.length > 0 && 
+        <ScrollView
+          horizontal={true}
           directionalLockEnabled={true}
           alwaysBounceVertical={false}
-          renderItem={itemData => {
-            return (
-              <TouchableOpacity
-                onPress={()=>handlePressSearch(getProductByCategory(itemData.item.categoryId))}
-                style={[
-                  styles.categoryItem,
-                  itemData.index > 0
-                    ? itemData.index != Math.ceil(categoryList.length / 2)
-                      ? {marginLeft: 30}
-                      : {}
-                    : {},
-                ]}>
-                <Image
-                  style={styles.categoryImage}
-                  source={itemData.item.imageUrl?{uri:itemData.item.imageUrl}:require('../assets/images/hongtra.png')}
-                />
-                <Text style={styles.categoryName}>{itemData.item.categoryName}</Text>
-              </TouchableOpacity>
-            );
-          }}
-          keyExtractor={(item, index) => item.categoryId}></FlatList>
-      </ScrollView>
+          showsHorizontalScrollIndicator={false}
+          >
+          <FlatList
+            data={categories}
+            numColumns={Math.ceil(categories.length%2==0?categories.length/2:(categories.length+1)/2)}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            renderItem={itemData => {
+              return (
+                <TouchableOpacity
+                  onPress={()=>handlePressSearch(getProductByCategory(itemData.item.categoryId))}
+                  style={[
+                    styles.categoryItem,
+                    itemData.index > 0
+                      ? itemData.index != Math.ceil(categories.length / 2)
+                        ? {marginLeft: 30}
+                        : {}
+                      : {},
+                  ]}>
+                  <Image
+                    style={styles.categoryImage}
+                    source={itemData.item.imageUrl?{uri:itemData.item.imageUrl}:require('../assets/images/hongtra.png')}
+                  />
+                  <Text style={styles.categoryName}>{itemData.item.categoryName}</Text>
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(item, index) => item.categoryId}></FlatList>
+        </ScrollView>
+      }
       {isLoading && (
         <View style={[styles.loadingIndicator]}>
           <ActivityIndicator size="large" />

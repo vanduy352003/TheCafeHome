@@ -82,7 +82,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
                         )}
                         numColumns={2}
                         renderItem={itemData => {
-                          const productStyle = itemData.index == 1?styles.productRightColumn : {};
+                          const productStyle = itemData.index % 2 == 1?styles.productRightColumn : {};
                           return(
                             <View style={productStyle}>
                                 <ProductCardOne
