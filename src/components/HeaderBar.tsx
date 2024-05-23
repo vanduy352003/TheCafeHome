@@ -5,12 +5,19 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type HeaderBarProp = {
     title?: string;
+    navigation : any;
 }
 
-function HeaderBar({title}:HeaderBarProp): React.JSX.Element {
+function HeaderBar({title, navigation}:HeaderBarProp): React.JSX.Element {
+    const handleUserDetail = () => {
+        navigation.navigate("UserDetail")
+    }
     return(
         <View style={styles.headerContainer}>
             <Text style={styles.headerText}>{title}</Text>
+            <TouchableOpacity>
+                <Text style={styles.headerText} onPress={handleUserDetail}>Logout</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -20,7 +27,8 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: '#56a568',
         alignItems: 'center',
-        flexDirection : "column"
+        justifyContent : "center",
+        flexDirection : "row"
     },
     headerText: {
         fontSize: 18,

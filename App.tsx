@@ -11,6 +11,7 @@ import SignUp from './src/screens/SignUp';
 import CheckoutScreen from './src/screens/CheckoutScreen';
 import ShopInformation from './src/screens/ShopInformation';
 import UserAddressScreen from './src/screens/UserAddressScreen';
+import UserInformationScreen from './src/screens/UserInformationScreen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
@@ -23,6 +24,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="Search" component={SearchScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Favorite" component={FavoriteScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name="UserDetail" component={UserInformationScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="LocationDetail" component={ShopInformation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>      
         <Stack.Screen name="UserAddress" component={UserAddressScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
       </Stack.Navigator>

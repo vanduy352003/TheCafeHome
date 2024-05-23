@@ -4,9 +4,10 @@ import Icon from "react-native-vector-icons/AntDesign"
 import { handleSignUp } from "../api/signupApi"
 
 function SignUp({navigation} : any) : React.JSX.Element {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [retypePassword, setRetypePassword] = useState("")
     const handlePressBack = () => {
@@ -14,7 +15,7 @@ function SignUp({navigation} : any) : React.JSX.Element {
     }
     const handleSignUpButton = () => {
         if(phoneNumber != "" && password != "" && password == retypePassword)
-            handleSignUp(phoneNumber, password, navigation);
+            handleSignUp(username, password, phoneNumber, firstName, lastName, navigation);
         else {
             Alert.alert("Thông tin không hợp lệ");
         }
@@ -28,9 +29,10 @@ function SignUp({navigation} : any) : React.JSX.Element {
                 <Text style={styles.headerText}>Tạo tài khoản</Text>
             </View>
             <View style = {styles.container} >
-                <TextInput style = {styles.input} placeholder="Nhập tên của bạn"></TextInput>
-                <TextInput style = {styles.input} placeholder="Nhập họ của bạn"></TextInput>
+                <TextInput style = {styles.input} value={firstName} onChangeText={(text) => setFirstName(text)} placeholder="Nhập tên của bạn"></TextInput>
+                <TextInput style = {styles.input} value={lastName} onChangeText={(text) => setLastName(text)} placeholder="Nhập họ của bạn"></TextInput>
                 <TextInput style = {styles.input} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)}  placeholder="Số điện thoại"></TextInput>
+                <TextInput style = {styles.input} value={username} onChangeText={(text) => setUsername(text)} placeholder="Tên đăng nhập"></TextInput>
                 <TextInput style = {styles.input} value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} placeholder="Nhập mật khẩu"></TextInput>
                 <TextInput style = {styles.input} value={retypePassword} onChangeText={(text) => setRetypePassword(text)} secureTextEntry={true} placeholder="Nhập lại mật khẩu"></TextInput>
                 

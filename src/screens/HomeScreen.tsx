@@ -50,7 +50,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
   }, []);
   return (
     <View style={{paddingBottom: tabBarHeight}}>
-      <HeaderBar title="Home"></HeaderBar>
+      <HeaderBar navigation={navigation} title="Home"></HeaderBar>
       <ScrollView
         style={{marginBottom: 60}}
         showsVerticalScrollIndicator={false}>

@@ -10,9 +10,12 @@ export const handleLogin = async (username, password, navigation) => {
         )
         if(response.status == 200) {
             console.log("Login sucessful");
+            console.log(response.data)
             currentUser.username = response.data["username"];
             currentUser.userId = response.data["userId"];
-            console.log(currentUser)
+            currentUser.firstname = response.data["firstname"];
+            currentUser.lastname = response.data["lastname"];
+            currentUser.phoneNumber = response.data["phoneNumber"];
             navigation.push("TabNavigator");
         }
         else {
@@ -22,6 +25,12 @@ export const handleLogin = async (username, password, navigation) => {
     catch (error) {
         console.log("Error: ", error);
     }
+}
+
+
+export const handleLogout = (navigation) => {
+    currentUser = new User();
+    navigation.popToTop();
 }
 
 // Hàm trả về user
