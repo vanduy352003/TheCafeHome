@@ -18,9 +18,9 @@ function Login({navigation} : any) : React.JSX.Element {
     return (
         <View style = {styles.container}>
             <View style = {styles.loginContainer}>
-                <TouchableOpacity onPress={handlePressBack}>
+                {/* <TouchableOpacity onPress={handlePressBack}>
                     <Icon style = {styles.closeIcon} name = "closecircle"> </Icon>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Text style = {{fontSize : 20, alignSelf : "center", marginBottom : 20}}>
                     Đăng nhập
                 </Text>

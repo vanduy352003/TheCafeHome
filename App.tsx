@@ -17,11 +17,11 @@ function App(): React.JSX.Element {
   return ( 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Login" component={Login} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Detail" component={ProductInfomation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Search" component={SearchScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="Favorite" component={FavoriteScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
-        <Stack.Screen name="Login" component={Login} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="LocationDetail" component={ShopInformation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>      
         <Stack.Screen name="UserAddress" component={UserAddressScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      

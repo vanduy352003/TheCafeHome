@@ -1,5 +1,6 @@
 import axios from "axios";
 
+let curentUsername = null
 export const handleLogin = async (username, password, navigation) => {
     console.log(username)
     console.log(password)
@@ -8,8 +9,9 @@ export const handleLogin = async (username, password, navigation) => {
             `http://localhost:8080/api/user/login?username=${username}&password=${password}`
         )
         if(response.status == 200) {
-            console.log("Login sucessful")
-            navigation.goBack();
+            console.log("Login sucessful");
+            curentUsername = username;
+            navigation.push("TabNavigator");
         }
         else {
             console.log("Unexpected error status: ", response.status);
@@ -19,3 +21,4 @@ export const handleLogin = async (username, password, navigation) => {
         console.log("Error: ", error);
     }
 }
+
