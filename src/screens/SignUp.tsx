@@ -14,7 +14,7 @@ function SignUp({navigation} : any) : React.JSX.Element {
         navigation.goBack();
     }
     const handleSignUpButton = () => {
-        if(phoneNumber != "" && password != "" && password == retypePassword)
+        if(username != "" && password != "" && password == retypePassword)
             handleSignUp(username, password, phoneNumber, firstName, lastName, navigation);
         else {
             Alert.alert("Thông tin không hợp lệ");
