@@ -1,6 +1,6 @@
 import axios from "axios";
-
-let curentUsername = null
+import { User } from "../model/user";
+export let currentUser = new User()
 export const handleLogin = async (username, password, navigation) => {
     console.log(username)
     console.log(password)
@@ -10,7 +10,9 @@ export const handleLogin = async (username, password, navigation) => {
         )
         if(response.status == 200) {
             console.log("Login sucessful");
-            curentUsername = username;
+            currentUser.username = response.data["username"];
+            currentUser.userId = response.data["userId"];
+            console.log(currentUser)
             navigation.push("TabNavigator");
         }
         else {
@@ -22,3 +24,7 @@ export const handleLogin = async (username, password, navigation) => {
     }
 }
 
+// Hàm trả về user
+export const getCurrentUser = () => {
+    return currentUser;
+}
