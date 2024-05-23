@@ -60,3 +60,14 @@ export const handleMakeOrder = async (orderDetail, cart) => {
         console.error("Failed to create order:", error);
     }
 };
+
+export const getUserOrder = async (userId) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/orders/getOrderByUserId?UserId=${userId}`
+        )
+        return response.data.body
+    } catch (error) {
+        return console.log(error)
+    }
+}
