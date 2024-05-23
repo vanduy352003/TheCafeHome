@@ -27,6 +27,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="UserDetail" component={UserInformationScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen name="LocationDetail" component={ShopInformation} options={{animation: 'slide_from_bottom'}}></Stack.Screen>      
         <Stack.Screen name="UserAddress" component={UserAddressScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
+        <Stack.Screen name="UserOrder" component={UserOrderScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
       </Stack.Navigator>
     </NavigationContainer>
   ); 

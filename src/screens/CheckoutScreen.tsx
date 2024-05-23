@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import IconEntypo from "react-native-vector-icons/Entypo";
@@ -10,6 +10,8 @@ import LocationBottomSheet from "../components/LocationBottomSheet";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useCartStore, useDeliveryStore } from "../store/store";
 import { formatMoney } from "../utils/format";
+import { currentUser } from "../api/loginApi";
+import { handleMakeOrder } from "../api/orderApi";
 
 const window = Dimensions.get('window');
 
@@ -25,6 +27,11 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         calculateTotalPrice: state.calculateTotalPrice,
         getTotalProduct: state.getTotalProduct,
     }), []))
+
+    useEffect(()=>{
+        if (deliveryAddress=="")
+            handlePressToUserAddress()
+    },[])
 
     const handlePressThem = () => {
         navigation.navigate('Home')
@@ -47,6 +54,16 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     }
 
     const handlePressOrder = () => {
+        if (deliveryType == "Delivery" && deliveryAddress == "") {
+            handlePressToUserAddress()
+            return
+        }
+        if (deliveryType != "Delivery" && takeAwayAddress == "") {
+            handlePressToShopLocation()
+            return
+        }
+        if (cart.length == 0)
+            return
         const orderDetail = {
             additionalFee: 0,
             delivery: deliveryType,
@@ -55,10 +72,12 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             note: note,
             address: deliveryType=="Delivery"?deliveryAddress:takeAwayAddress.address,
             discountPrice: 0,
-            payment: {paymentId:1}
+            payment: {paymentId:1},
+            user: {userId: currentUser.userId},
+            complete: false
         }
-        //Chua xong
-        console.log(orderDetail)
+        handleMakeOrder(orderDetail, cart)
+        clearCart()
     }
 
 
