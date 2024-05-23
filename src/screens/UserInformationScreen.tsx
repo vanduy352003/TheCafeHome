@@ -4,6 +4,7 @@ import { getCurrentUser, handleLogout } from "../api/loginApi"
 import Icon from "react-native-vector-icons/AntDesign";
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import { useCartStore } from "../store/store";
 
 class ItemProps {
     leftContent: string;
@@ -58,6 +59,7 @@ const itemStyles = StyleSheet.create({
 })
 
 export default function UserInformationScreen({navigation} : any) : React.JSX.Element {
+    const {clearCart} = useCartStore();
     const handlePressBack = () => {
         navigation.goBack();
     }
@@ -75,7 +77,7 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
             <DetailItem leftContent="Tên " rightContent={user.firstname}></DetailItem>
             <DetailItem leftContent="Số điện thoại " rightContent={user.phoneNumber}></DetailItem>
             <View>
-                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation)}}>
+                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation);clearCart()}}>
                     <Text style = {styles.logoutButtonContent}> Đăng xuất</Text>
                 </TouchableOpacity>
             </View>
