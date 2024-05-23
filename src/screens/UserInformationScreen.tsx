@@ -96,7 +96,7 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
                 </TouchableOpacity>
             </View>
             <View style = {{backgroundColor : "white"}}>
-                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation)}}>
+                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation);clearCart()}}>
                     <Text style = {styles.logoutButtonContent}> Đăng xuất</Text>
                 </TouchableOpacity>
             </View>
