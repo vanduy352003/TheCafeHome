@@ -19,14 +19,22 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
     const [note, setNote] = useState("")
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
-    const {deliveryType, takeAwayAddress, deliveryAddress} = useDeliveryStore();
+    const {deliveryType, takeAwayAddress, deliveryAddress, receiver, phone, setReceiver, setPhone, setDeliveryAddress} = useDeliveryStore();
     const deliveryMoney = 20000;
     const {cart, clearCart, calculateTotalPrice, getTotalProduct} = useCartStore(useMemo(() => (state) => ({
         cart: state.cart,
         clearCart: state.clearCart,
         calculateTotalPrice: state.calculateTotalPrice,
         getTotalProduct: state.getTotalProduct,
+        setDeliveryAddress: state.setDeliveryAddress,
     }), []))
+
+    useEffect(() => {
+        setDeliveryAddress('')
+        setReceiver(currentUser.firstname)
+        setPhone(currentUser.phoneNumber)
+    },[currentUser])
+
 
     useEffect(()=>{
         if (deliveryAddress=="")
@@ -116,8 +124,8 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                             ></TextInput>
                         <View style={styles.flexDirectionRow}>
                             <View style={styles.doubleColumn}>
-                                <Text style={[styles.mb5, {color: 'black'}]}>Duy Tran</Text>
-                                <Text >0123456789</Text>
+                                <Text style={[styles.mb5, {color: 'black'}]}>{receiver}</Text>
+                                <Text >{phone}</Text>
                             </View>
                             <View style={styles.seperator}></View>
                             <View style={styles.doubleColumn}>

@@ -5,11 +5,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useDeliveryStore = create(set => ({
   deliveryType: 'Delivery',
+  phone: '',
+  receiver: '',
   takeAwayAddress: {},
   deliveryAddress: '',
   setDeliveryType: method => set({deliveryType: method}),
   setTakeAwayAddress: address => set({takeAwayAddress: address}),
   setDeliveryAddress: address => set({deliveryAddress: address}),
+  setPhone: phone => set({phone:phone}),
+  setReceiver: receiver => set({receiver:receiver})
 }));
 
 export const useCartStore = create(

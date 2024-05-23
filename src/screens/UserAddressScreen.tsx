@@ -7,12 +7,14 @@ import { useCartStore, useDeliveryStore } from "../store/store";
 
 function UserAddressScreen({navigation}:any): React.JSX.Element {
     const [address, setAddress] = useState("")
-    const [receiver, setReceiver] = useState("")
-    const [phone, setPhone] = useState("")
+    const [receiver, setLocalReceiver] = useState("")
+    const [phone, setLocalPhone] = useState("")
     const [isPhoneValid, setIsPhoneValid] = useState(true)
-    const {setDeliveryAddress, deliveryAddress} = useDeliveryStore(useMemo(() => (state) => ({
+    const {setDeliveryAddress, deliveryAddress, setReceiver, setPhone} = useDeliveryStore(useMemo(() => (state) => ({
         setDeliveryAddress: state.setDeliveryAddress,
-        deliveryAddress: state.deliveryAddress
+        deliveryAddress: state.deliveryAddress,
+        setReceiver : state.setReceiver,
+        setPhone : state.setPhone,
     }), []))
 
     useEffect(()=>{
@@ -38,6 +40,8 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
             return
         }
         setDeliveryAddress(address)
+        setReceiver(receiver)
+        setPhone(phone)
         console.log
         navigation.navigate("Cart")
     }
@@ -58,11 +62,11 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
                         style={styles.inputText}></TextInput>
                     <Text style={styles.titleText}>Tên người nhận*</Text>
                     <TextInput value={receiver}
-                        onChangeText={text=>setReceiver(text)}
+                        onChangeText={text=>setLocalReceiver(text)}
                         style={styles.inputText}></TextInput>
                     <Text style={styles.titleText}>Số điện thoại*</Text>
                     <TextInput value={phone}
-                        onChangeText={text=>setPhone(text)}
+                        onChangeText={text=>setLocalPhone(text)}
                         style={styles.inputText}></TextInput>
                 </View>
             </ScrollView>
