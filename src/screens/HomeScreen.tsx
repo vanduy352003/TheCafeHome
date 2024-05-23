@@ -30,7 +30,7 @@ function HomeScreen({navigation}: any): React.JSX.Element {
   };
 
   const handlePressFavorite = () => {
-    navigation.push('Favorite');
+    navigation.push('Favorite', {products});
   };
 
   const handlePressCheckout = () => {
