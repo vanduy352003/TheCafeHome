@@ -13,6 +13,7 @@ import ShopInformation from './src/screens/ShopInformation';
 import UserAddressScreen from './src/screens/UserAddressScreen';
 import UserInformationScreen from './src/screens/UserInformationScreen';
 import UserOrderScreen from './src/screens/UserOrderScreen';
+import Toast from 'react-native-toast-message';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
@@ -30,6 +31,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="UserAddress" component={UserAddressScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
         <Stack.Screen name="UserOrder" component={UserOrderScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
       </Stack.Navigator>
+      
     </NavigationContainer>
   ); 
 }

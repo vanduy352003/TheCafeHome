@@ -12,6 +12,7 @@ import { useCartStore, useDeliveryStore } from "../store/store";
 import { formatMoney } from "../utils/format";
 import { currentUser } from "../api/loginApi";
 import { handleMakeOrder } from "../api/orderApi";
+import Toast from "react-native-toast-message";
 
 const window = Dimensions.get('window');
 
@@ -86,8 +87,14 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         }
         handleMakeOrder(orderDetail, cart)
         clearCart()
+        showSuccess()
     }
-
+    const showSuccess = () => {
+        Toast.show({
+            type: 'success',
+            text1: 'Order have been made',
+        });
+    };
 
     return(
         <View style={styles.container}>
@@ -193,6 +200,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             </View>
             {isOpenBottomSheet && <View style={styles.overlay}><TouchableWithoutFeedback style={{height: '100%'}} onPress={handlePressCloseDelivery}></TouchableWithoutFeedback></View>}
             <LocationBottomSheet ref={deliveryBottomSheetRef} onClose={handlePressCloseDelivery} handleQuickPick={handlePressToShopLocation} handlePressToUserAddress={handlePressToUserAddress}></LocationBottomSheet>
+            <Toast />
         </View>
     )
 }

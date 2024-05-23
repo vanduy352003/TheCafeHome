@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 import { TextInput } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useCartStore, useDeliveryStore } from "../store/store";
+import Toast from "react-native-toast-message";
 
 
 function UserAddressScreen({navigation}:any): React.JSX.Element {
@@ -21,6 +22,14 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
         validatingPhone()
     },[phone])
 
+    const showError = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Complete all the input',
+            text2: 'Dont forget phone is 10 number 👋',
+        });
+    };
+
     const validatingPhone = () => {
         const phoneRegex = /^[0-9]{10}$/
         if (!phoneRegex.test(phone))
@@ -37,6 +46,7 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
         console.log(address.trim() === "", receiver.trim() === "", phone.trim() === "", !isPhoneValid)
         if (address.trim() === "" || receiver.trim() === "" || phone.trim() === "" || !isPhoneValid) {
             console.log("vao day")
+            showError()
             return
         }
         setDeliveryAddress(address)
@@ -75,6 +85,7 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
                     <Text style={styles.buttonText}>Xong</Text>
                 </TouchableOpacity>
             </View>
+            <Toast />
         </View>
     )
 }

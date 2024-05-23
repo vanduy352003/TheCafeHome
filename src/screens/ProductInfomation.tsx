@@ -8,6 +8,7 @@ import { useCartStore, useFavoriteStore } from '../store/store';
 import { formatMoney } from '../utils/format';
 import FavoriteScreen from './FavoriteScreen';
 import { currentUser } from '../api/loginApi';
+import Toast from 'react-native-toast-message';
 
 
 const window = Dimensions.get('window');
@@ -56,11 +57,13 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
             setFavorite(1);
             setFavoriteIconName('heart')
             addToFavorites(productId, currentUser.userId)
+            showSuccess()
         }
         else {
             setFavorite(0);
             setFavoriteIconName('hearto')
             removeFromFavorites(productId, currentUser.userId)
+            showInfo()
         }
     }
     const handleOptionPress = (option : string, price : number) => {
@@ -83,6 +86,18 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         addToCart({"id":productId,"price":price,"productName":productName,"variantName":selectedOption}, {"toppingName":selectedTopping, "toppingId":selectedToppingId, "price":toppingPrice})
         navigation.goBack();
     }
+    const showSuccess = () => {
+        Toast.show({
+            type: 'success',
+            text1: 'Product have been added to Favourite',
+        });
+    };
+    const showInfo = () => {
+        Toast.show({
+            type: 'info',
+            text1: 'Product have been removed from Favourite',
+        });
+    };
     return (
         <View style = {styles.container}>
             <View style={styles.header}>
@@ -137,6 +152,7 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
                     <Text style = {{fontSize : 20, color : 'white'}}>{price + toppingPrice}</Text>
                 </TouchableOpacity>
             </View>
+            <Toast />
         </View>
         
     )
