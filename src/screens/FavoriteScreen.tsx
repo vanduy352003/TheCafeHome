@@ -5,9 +5,11 @@ import ProductCardThree from "../components/ProductCardThree";
 import { Product, productList } from "../model/product";
 import { useFavoriteStore } from "../store/store";
 import { FlatList } from "react-native-gesture-handler";
+import { currentUser } from "../api/loginApi";
 
 function FavoriteScreen({navigation, route}:any): React.JSX.Element {
-  const {favorites} = useFavoriteStore();
+  const {getUserFavorites} = useFavoriteStore();
+  const favorites = getUserFavorites(currentUser.userId)
   const {products} = route.params
   const handlePressBack = () => {
         navigation.goBack();

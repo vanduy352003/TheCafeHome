@@ -7,6 +7,7 @@ import Icon2 from 'react-native-vector-icons/Ionicons';
 import { useCartStore, useFavoriteStore } from '../store/store';
 import { formatMoney } from '../utils/format';
 import FavoriteScreen from './FavoriteScreen';
+import { currentUser } from '../api/loginApi';
 
 
 const window = Dimensions.get('window');
@@ -45,20 +46,21 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
         cart: state.cart,
         addToCart: state.addToCart,
     }));
-    const {favorites, addToFavorites, removeFromFavorites} = useFavoriteStore()
+    const {getUserFavorites, addToFavorites, removeFromFavorites} = useFavoriteStore()
+    const favorites = getUserFavorites(currentUser.userId)
     const [favorite, setFavorite] = useState(favorites.includes(productId)?1:0);
     const [favoriteIconName, setFavoriteIconName] = useState(favorites.includes(productId)?'heart':'hearto');
-
+    console.log(favorites)
     const handleFavoritePress = () => {
         if(favorite == 0) {
             setFavorite(1);
             setFavoriteIconName('heart')
-            addToFavorites(productId)
+            addToFavorites(productId, currentUser.userId)
         }
         else {
             setFavorite(0);
             setFavoriteIconName('hearto')
-            removeFromFavorites(productId)
+            removeFromFavorites(productId, currentUser.userId)
         }
     }
     const handleOptionPress = (option : string, price : number) => {
@@ -79,10 +81,8 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
             return;
 
         addToCart({"id":productId,"price":price,"productName":productName,"variantName":selectedOption}, {"toppingName":selectedTopping, "toppingId":selectedToppingId, "price":toppingPrice})
-        Alert.alert(`${cart.length}`);
         navigation.goBack();
     }
-    console.log(imageUrl)
     return (
         <View style = {styles.container}>
             <View style={styles.header}>
