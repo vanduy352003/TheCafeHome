@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,10 +13,13 @@ import ShopInformation from './src/screens/ShopInformation';
 import UserAddressScreen from './src/screens/UserAddressScreen';
 import UserInformationScreen from './src/screens/UserInformationScreen';
 import UserOrderScreen from './src/screens/UserOrderScreen';
-import Toast from 'react-native-toast-message';
+import SplashScreen from 'react-native-splash-screen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
+  useEffect(()=>{
+    SplashScreen.hide();
+  },[])
   return ( 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -31,7 +34,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="UserAddress" component={UserAddressScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
         <Stack.Screen name="UserOrder" component={UserOrderScreen} options={{animation: 'slide_from_right'}}></Stack.Screen>      
       </Stack.Navigator>
-      
+
     </NavigationContainer>
   ); 
 }
