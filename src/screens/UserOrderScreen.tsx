@@ -17,11 +17,11 @@ function UserOrderScreen({navigation}:any): React.JSX.Element {
     useEffect(()=>{
         setIsLoading(true)
         //currentUser.userId
-        getUserOrder(1).then(data => {
+        getUserOrder(currentUser.userId).then(data => {
             setIsLoading(false)
             setOrderList(data)
         })
-    },[])
+    },[currentUser])
 
     const countTotalProduct = (order) => {
         let count = 0

@@ -4,7 +4,11 @@ import { getCurrentUser, handleDeleteUser, handleLogout } from "../api/loginApi"
 import Icon from "react-native-vector-icons/AntDesign";
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+<<<<<<< HEAD
 import { handleUpdate } from "../api/signupApi";
+=======
+import { useCartStore } from "../store/store";
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
 
 class ItemProps {
     leftContent: string;
@@ -61,6 +65,7 @@ const itemStyles = StyleSheet.create({
 })
 
 export default function UserInformationScreen({navigation} : any) : React.JSX.Element {
+<<<<<<< HEAD
     
     const user = getCurrentUser()
     const [lastname, setLastname] = useState(user.lastname);
@@ -70,6 +75,9 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
     const handleDeleteUserButton = () => {
         handleDeleteUser(user.username, password, navigation);
     }
+=======
+    const {clearCart} = useCartStore();
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
     const handlePressBack = () => {
         navigation.goBack();
     }
@@ -84,6 +92,7 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Thông tin cá nhân</Text>
             </View>
+<<<<<<< HEAD
             <DetailItem leftContent="Họ và tên đệm " setRightContent={setLastname} rightContent={lastname} secureTextEntry={false}></DetailItem>
             <DetailItem leftContent="Tên " setRightContent={setFirstname} rightContent={firstname}  secureTextEntry={false}></DetailItem>
             <DetailItem leftContent="Số điện thoại " setRightContent={setPhoneNumber} rightContent={phoneNumber} secureTextEntry={false}></DetailItem>
@@ -95,6 +104,13 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
             </View>
             <View style = {{backgroundColor : "white"}}>
                 <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation)}}>
+=======
+            <DetailItem leftContent="Họ và tên đệm " rightContent={user.lastname}></DetailItem>
+            <DetailItem leftContent="Tên " rightContent={user.firstname}></DetailItem>
+            <DetailItem leftContent="Số điện thoại " rightContent={user.phoneNumber}></DetailItem>
+            <View>
+                <TouchableOpacity style = {styles.logoutButton} onPress={() => {handleLogout(navigation);clearCart()}}>
+>>>>>>> fc3aa98ba833cb5ec2a4572b987a3d7a0a82d57a
                     <Text style = {styles.logoutButtonContent}> Đăng xuất</Text>
                 </TouchableOpacity>
             </View>

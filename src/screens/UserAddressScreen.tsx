@@ -3,21 +3,32 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 import { TextInput } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useCartStore, useDeliveryStore } from "../store/store";
+import Toast from "react-native-toast-message";
 
 
 function UserAddressScreen({navigation}:any): React.JSX.Element {
     const [address, setAddress] = useState("")
-    const [receiver, setReceiver] = useState("")
-    const [phone, setPhone] = useState("")
+    const [receiver, setLocalReceiver] = useState("")
+    const [phone, setLocalPhone] = useState("")
     const [isPhoneValid, setIsPhoneValid] = useState(true)
-    const {setDeliveryAddress, deliveryAddress} = useDeliveryStore(useMemo(() => (state) => ({
+    const {setDeliveryAddress, deliveryAddress, setReceiver, setPhone} = useDeliveryStore(useMemo(() => (state) => ({
         setDeliveryAddress: state.setDeliveryAddress,
-        deliveryAddress: state.deliveryAddress
+        deliveryAddress: state.deliveryAddress,
+        setReceiver : state.setReceiver,
+        setPhone : state.setPhone,
     }), []))
 
     useEffect(()=>{
         validatingPhone()
     },[phone])
+
+    const showError = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Complete all the input',
+            text2: 'Dont forget phone is 10 number 👋',
+        });
+    };
 
     const validatingPhone = () => {
         const phoneRegex = /^[0-9]{10}$/
@@ -35,9 +46,12 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
         console.log(address.trim() === "", receiver.trim() === "", phone.trim() === "", !isPhoneValid)
         if (address.trim() === "" || receiver.trim() === "" || phone.trim() === "" || !isPhoneValid) {
             console.log("vao day")
+            showError()
             return
         }
         setDeliveryAddress(address)
+        setReceiver(receiver)
+        setPhone(phone)
         console.log
         navigation.navigate("Cart")
     }
@@ -58,11 +72,11 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
                         style={styles.inputText}></TextInput>
                     <Text style={styles.titleText}>Tên người nhận*</Text>
                     <TextInput value={receiver}
-                        onChangeText={text=>setReceiver(text)}
+                        onChangeText={text=>setLocalReceiver(text)}
                         style={styles.inputText}></TextInput>
                     <Text style={styles.titleText}>Số điện thoại*</Text>
                     <TextInput value={phone}
-                        onChangeText={text=>setPhone(text)}
+                        onChangeText={text=>setLocalPhone(text)}
                         style={styles.inputText}></TextInput>
                 </View>
             </ScrollView>
@@ -71,6 +85,7 @@ function UserAddressScreen({navigation}:any): React.JSX.Element {
                     <Text style={styles.buttonText}>Xong</Text>
                 </TouchableOpacity>
             </View>
+            <Toast />
         </View>
     )
 }

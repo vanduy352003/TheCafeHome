@@ -8,6 +8,7 @@ import IconIon from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "@react-native-community/blur";
 import CheckoutScreen from "../screens/CheckoutScreen";
+import UserOrderScreen from "../screens/UserOrderScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,11 @@ function TabNavigator(): React.JSX.Element {
                 },
             })}
             ></Tab.Screen>
+            <Tab.Screen name="Order" component={UserOrderScreen} options={{
+                tabBarIcon: ({focused,color,size}) => (
+                    <IconAntDesign name="inbox" size={30} color={focused?'#56A568':'grey'}></IconAntDesign>
+                ),
+            }}></Tab.Screen>
         </Tab.Navigator>
 
     )
