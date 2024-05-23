@@ -1,14 +1,14 @@
-import { useCartStore } from "../store/store"
+import axios from "axios"
 
-
-export const createOrder = async (orderDetail) => {
+const createOrder = async (orderDetail) => {
     try {
         const response = await axios.post(
             `http://localhost:8080/api/orders/makeOrder`,orderDetail
         )
-        handleOrderItem(response.data)
+        return response.data;
     } catch(error) {
-        return console.log(error)
+        console.log(error)
+        throw error;
     }
 }
 
@@ -18,28 +18,45 @@ const addOrderItem = async (orderItem) => {
             `http://localhost:8080/api/orders/addOrderItem`, 
             orderItem
         )
-        if (orderItem.topping["toppingId"])
-            addOrderItemTopping({orderItem:{orderItemId:respone.data.orderItemId}}, orderItem.topping)
+        if (orderItem.topping["toppingId"]) {
+            console.log(orderItem.topping)
+            await addOrderItemTopping({orderItem:{orderItemId:respone.data.orderItemId}, topping:orderItem.topping})
+        } 
     } catch(error) {
-        return console.log(error)
+        console.log(error)
+        throw error;
     }
 }
 
 const addOrderItemTopping = async (orderItemTopping) => {
     try {
         const respone = await axios.post(
-            `http://localhost:8080/api/orders/addOrderItem`, 
+            `http://localhost:8080/api/orders/addOrderItemTopping`, 
             orderItemTopping
         )
-
     } catch(error) {
-        return console.log(error)
+        console.log(error)
+        throw error;
     }
 }
 
-const handleOrderItem = (order) => {
-    const {cart} = useCartStore();
-    [...cart].map((item, index) => {
-        addOrderItem({order:{orderId:order.OrderId},...item});
-    })
+const handleOrderItem = async (order, cart) => {
+    try {
+        const promises = cart.map((item) => {
+            return addOrderItem({ order: { orderId: order.orderId }, ...item });
+        });
+        await Promise.all(promises);
+    } catch (error) {
+        console.error("Error handling order items:", error);
+        throw error; 
+    }
 }
+
+export const handleMakeOrder = async (orderDetail, cart) => {
+    try {
+        const order = await createOrder(orderDetail);
+        await handleOrderItem(order, cart)
+    } catch (error) {
+        console.error("Failed to create order:", error);
+    }
+};

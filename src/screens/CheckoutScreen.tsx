@@ -11,6 +11,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useCartStore, useDeliveryStore } from "../store/store";
 import { formatMoney } from "../utils/format";
 import { currentUser } from "../api/loginApi";
+import { handleMakeOrder } from "../api/orderApi";
 
 const window = Dimensions.get('window');
 
@@ -61,6 +62,8 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             handlePressToShopLocation()
             return
         }
+        if (cart.length == 0)
+            return
         const orderDetail = {
             additionalFee: 0,
             delivery: deliveryType,
@@ -70,10 +73,11 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             address: deliveryType=="Delivery"?deliveryAddress:takeAwayAddress.address,
             discountPrice: 0,
             payment: {paymentId:1},
-            user: {userId: currentUser.userId}
+            user: {userId: currentUser.userId},
+            complete: false
         }
-        //Chua xong
-        console.log(orderDetail)
+        handleMakeOrder(orderDetail, cart)
+        clearCart()
     }
 
 
