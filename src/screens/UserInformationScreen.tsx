@@ -70,6 +70,7 @@ export default function UserInformationScreen({navigation} : any) : React.JSX.El
     const [password, setPassword] = useState("");
     const handleDeleteUserButton = () => {
         handleDeleteUser(user.username, password, navigation);
+        clearCart();
     }
     const {clearCart} = useCartStore();
     const handlePressBack = () => {
