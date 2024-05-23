@@ -12,6 +12,7 @@ import CheckoutScreen from './src/screens/CheckoutScreen';
 import ShopInformation from './src/screens/ShopInformation';
 import UserAddressScreen from './src/screens/UserAddressScreen';
 import UserInformationScreen from './src/screens/UserInformationScreen';
+import UserOrderScreen from './src/screens/UserOrderScreen';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
