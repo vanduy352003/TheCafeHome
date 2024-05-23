@@ -4,8 +4,9 @@ import { Alert, Dimensions, ScrollView, TouchableOpacity, ViewBase } from 'react
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
-import { useCartStore } from '../store/store';
+import { useCartStore, useFavoriteStore } from '../store/store';
 import { formatMoney } from '../utils/format';
+import FavoriteScreen from './FavoriteScreen';
 
 
 const window = Dimensions.get('window');
@@ -40,20 +41,24 @@ function ProductInfomation({route, navigation} : any) : React.JSX.Element {
     const [selectedToppingId, setSelectedToppingId] = useState();
     const [price, setPrice] = useState(0);
     const [toppingPrice, setToppingPrice] = useState(0);
-    const [favorite, setFavorite] = useState(0);
-    const [favoriteIconName, setFavoriteIconName] = useState('hearto')
     const {cart, addToCart} = useCartStore((state)=>({
         cart: state.cart,
         addToCart: state.addToCart,
     }));
+    const {favorites, addToFavorites, removeFromFavorites} = useFavoriteStore()
+    const [favorite, setFavorite] = useState(favorites.includes(productId)?1:0);
+    const [favoriteIconName, setFavoriteIconName] = useState(favorites.includes(productId)?'heart':'hearto');
+
     const handleFavoritePress = () => {
         if(favorite == 0) {
             setFavorite(1);
             setFavoriteIconName('heart')
+            addToFavorites(productId)
         }
         else {
             setFavorite(0);
             setFavoriteIconName('hearto')
+            removeFromFavorites(productId)
         }
     }
     const handleOptionPress = (option : string, price : number) => {

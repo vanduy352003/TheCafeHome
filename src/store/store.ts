@@ -66,3 +66,26 @@ export const useCartStore = create(
         }
     )
 )
+
+export const useFavoriteStore = create(
+    persist(
+        (set, get) => ({
+            favorites: [],
+            addToFavorites: (productId) => {
+                const favorites = get().favorites;
+                if (!favorites.includes(productId)) {
+                    set({ favorites: [...favorites, productId] });
+                }
+            },
+            removeFromFavorites: (productId) => {
+                const favorites = get().favorites.filter(id => id !== productId);
+                set({ favorites });
+            },
+            clearFavorites: () => set({ favorites: [] }),
+        }),
+        {
+            name: 'favorite-storage',
+            storage: createJSONStorage(() => AsyncStorage),
+        }
+    )
+)

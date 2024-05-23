@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import ProductCardThree from "../components/ProductCardThree";
 import { Product, productList } from "../model/product";
+import { useFavoriteStore } from "../store/store";
+import { FlatList } from "react-native-gesture-handler";
 
-function FavoriteScreen({navigation}:any): React.JSX.Element {
-    const handlePressBack = () => {
+function FavoriteScreen({navigation, route}:any): React.JSX.Element {
+  const {favorites} = useFavoriteStore();
+  const {products} = route.params
+  const handlePressBack = () => {
         navigation.goBack();
     }
     const handlePressCard = (product : Product) => {
@@ -19,14 +23,20 @@ function FavoriteScreen({navigation}:any): React.JSX.Element {
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Sản phẩm Yêu Thích</Text>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.listProduct}>
-            {[...productList].map((item, index) => (
+            <View style={styles.listProduct}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={products.filter(product => favorites.includes(product.productId))}
+          renderItem={itemData => {
+            return(
               <ProductCardThree
-                key={index}
-                product={productList[index]}
+                product={{"productId": itemData.item.productId, "productName":itemData.item.productName, "imageUrl":itemData.item.imageUrl, "description":itemData.item.description, "category":itemData.item.category, "productVariant":itemData.item.productVariant, "toppings": itemData.item.toppings}}
                 navigateToDetail={handlePressCard}></ProductCardThree>
-            ))}
-          </ScrollView>
+            )
+          }}
+          keyExtractor={(item, index) => item.productId}
+        ></FlatList>
+      </View>
         </View>
     )
 }
