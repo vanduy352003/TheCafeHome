@@ -9,7 +9,7 @@ export const useDeliveryStore = create((set)=> ({
     deliveryAddress: {},
     setDeliveryType: (method)=>set({deliveryType: method}),
     setTakeAwayAddress: (address)=>set({takeAwayAddress: address}),
-    setDeliveryAddress: (address)=>set({takeDeliveryAddress: address}),
+    setDeliveryAddress: (address)=>set({deliveryAddress: address}),
 }))
 
 export const useCartStore = create(

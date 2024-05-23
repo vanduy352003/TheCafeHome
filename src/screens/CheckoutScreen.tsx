@@ -17,7 +17,7 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
     const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false)
     const [note, setNote] = useState("")
     const deliveryBottomSheetRef = useRef<BottomSheet>(null);
-    const {deliveryType, takeAwayAddress, deliveryAdress} = useDeliveryStore();
+    const {deliveryType, takeAwayAddress, deliveryAddress} = useDeliveryStore();
     const deliveryMoney = 20000;
     const {cart, clearCart, calculateTotalPrice, getTotalProduct} = useCartStore(useMemo(() => (state) => ({
         cart: state.cart,
@@ -53,6 +53,9 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             totalPrice: calculateTotalPrice(),
             finalPrice: calculateTotalPrice()+(deliveryType=="Delivery"?deliveryMoney:0),
             note: note,
+            address: deliveryType=="Delivery"?deliveryAddress:takeAwayAddress.address,
+            discountPrice: 0,
+            payment: {paymentId:1}
         }
         //Chua xong
         console.log(orderDetail)
@@ -81,8 +84,8 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
                     <View>
                         <View style={styles.addressSection}>
                             <View>
-                                <Text style={[styles.textBold, styles.mb5]}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.name}</Text>
-                                <Text style={styles.addressText} numberOfLines={1}>{deliveryType=="Delivery"?"Giao hang chua co":takeAwayAddress.address}</Text>
+                                <Text style={[styles.textBold, styles.mb5]}>{deliveryType=="Delivery"?deliveryAddress:takeAwayAddress.name}</Text>
+                                <Text style={styles.addressText} numberOfLines={1}>{deliveryType=="Delivery"?deliveryAddress:takeAwayAddress.address}</Text>
                             </View>
                             <TouchableOpacity style={styles.addressButton} onPress={deliveryType=="Delivery"?handlePressToUserAddress:handlePressToShopLocation}>
                                 <IconEntypo style={styles.addressIcon} name="chevron-right"></IconEntypo>

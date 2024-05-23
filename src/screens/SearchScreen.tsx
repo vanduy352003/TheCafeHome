@@ -41,6 +41,7 @@ function SearchScreen({navigation, route}: any): React.JSX.Element {
       </View>
       <View style={styles.listProduct}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={products.filter(product => product.productName.toLowerCase().includes(searchText.toLowerCase()))}
           renderItem={itemData => {
             return(
