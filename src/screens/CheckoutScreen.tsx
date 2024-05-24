@@ -71,8 +71,10 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
             handlePressToShopLocation()
             return
         }
-        if (cart.length == 0)
+        if (cart.length == 0) {
+            showError()
             return
+        }
         const orderDetail = {
             additionalFee: 0,
             delivery: deliveryType,
@@ -93,6 +95,12 @@ function CheckoutScreen({navigation}:any): React.JSX.Element {
         Toast.show({
             type: 'success',
             text1: 'Order have been made',
+        });
+    };
+    const showError = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Choose a product',
         });
     };
 

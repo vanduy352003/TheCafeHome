@@ -37,7 +37,7 @@ function UserOrderScreen({navigation}:any): React.JSX.Element {
                 <TouchableOpacity style={styles.backButton} onPress={handlePressBack}>
                   <Icon style={styles.icon} name='left'></Icon>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Lich su order</Text>
+                <Text style={styles.headerText}>Lịch sử order</Text>
             </View>
             <View style={styles.orderList}>
                 <FlatList
@@ -49,7 +49,7 @@ function UserOrderScreen({navigation}:any): React.JSX.Element {
                                 <Text style={styles.orderNumber}>Order # {itemData.index+1}</Text>
                                 <View>
                                     <Text>Delivery: {itemData.item.delivery}</Text>
-                                    <Text>Address: {itemData.item.address}</Text>
+                                    <Text numberOfLines={1} style={styles.address}>Address: {itemData.item.address}</Text>
                                     <View style={styles.viewFlexDirection}>
                                         <Text>Total product: {countTotalProduct(itemData.item)}</Text>
                                         <Text style={styles.text}>Total price: {itemData.item.finalPrice}đ</Text>
@@ -127,6 +127,9 @@ const styles = StyleSheet.create({
     viewFlexDirection: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    address: {
+        width: '80%'
     }
 })
 
