@@ -25,7 +25,7 @@ function ProductCardThree({product, navigateToDetail}: productProp): React.JSX.E
         <Image
           style={styles.productImage}
           resizeMode="cover"
-          source={require('../assets/images/hongtra.png')}
+          source={product.imageUrl?{uri:product.imageUrl}:require('../assets/images/hongtra.png')}
         />
         <View style={styles.productView}>
           <Text style={styles.productName}>{product.productName}</Text>

@@ -34,7 +34,7 @@ function ProductHorizontalSection({products, navigateToDetail}:productProp): Rea
                 <Image
                   style={styles.productImage}
                   resizeMode="cover"
-                  source={require('../assets/images/hongtra.png')}
+                  source={itemData.item.imageUrl?{uri:itemData.item.imageUrl}:require('../assets/images/hongtra.png')}
                 />
                 <Text style={styles.productName}>{itemData.item.productName}</Text>
                 <Text style={styles.productPrice}>{itemData.item.productPrice}</Text>
