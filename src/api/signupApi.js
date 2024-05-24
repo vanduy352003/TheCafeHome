@@ -18,6 +18,8 @@ export const handleSignUp = async (username, password, phoneNumber, firstName, l
     }
     catch (error) {
         console.log("Error status: ", error.status);
+        
+        Alert.alert("Thông tin không hợp lệ ")
     }
 }
 
@@ -35,5 +37,6 @@ export const handleUpdate = async (username, phoneNumber, firstName, lastName, n
     }
     catch (error) {
         console.log("Error status: ", error.status);
+        Alert.alert("Cập nhật thất bại")
     }
 } 

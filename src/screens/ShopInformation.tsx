@@ -28,7 +28,7 @@ function ShopInformation({route, navigation}:any): React.JSX.Element {
                 <TouchableOpacity onPress={handlePressBack}>
                     <Icon style={styles.headerIcon} name='left'></Icon>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Thông tin sản phẩm</Text>
+                <Text style={styles.headerText}>Thông tin cửa hàng</Text>
             </View>
             <ScrollView>
                 <View style = {styles.imageContainer}>

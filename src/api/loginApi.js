@@ -2,6 +2,7 @@ import axios from "axios";
 import { User } from "../model/user";
 export let currentUser = new User()
 import { hashPassword } from "./signupApi";
+import { Alert } from "react-native";
 
 
 export const handleLogin = async (username, password, navigation) => {
@@ -21,10 +22,12 @@ export const handleLogin = async (username, password, navigation) => {
             navigation.push("TabNavigator");
         }
         else {
+            Alert.alert("Đăng nhập không thành công")
             console.log("Unexpected error status: ", response.status);
         }
     }
     catch (error) {
+        Alert.alert("Đăng nhập không thành công")
         console.log("Error: ", error);
     }
 }
@@ -48,6 +51,8 @@ export const handleDeleteUser = async (username, password, navigation) => {
     }
     catch (error) {
         console.log("Error: ", error);
+        
+        Alert.alert("Mật khẩu không chính xác")
     }
 }
 
