@@ -14,10 +14,11 @@ class Shop  {
     name : string | undefined;
     address : string | undefined;
     phoneNumber : string | undefined;
+    imageUrl: string | undefined;
 }
 
 function ShopInformation({route, navigation}:any): React.JSX.Element {
-
+    const {id, locationName, locationAddress, imageUrl} = route.params
     const handlePressBack = () => {
         navigation.goBack();
     }
@@ -31,11 +32,11 @@ function ShopInformation({route, navigation}:any): React.JSX.Element {
             </View>
             <ScrollView>
                 <View style = {styles.imageContainer}>
-
+                    <Image style={styles.image} resizeMode="cover" source={imageUrl?{uri:imageUrl}:require('../assets/images/hongtra.png')}></Image>
                 </View>
                 <View style = {{flex:1}}>
-                    <Text style = {styles.title1}> THE COFFEE HOUSE </Text>
-                    <Text style = {styles.title2}> HCM Hoang Dieu 2 </Text>
+                    <Text style = {styles.title1}> THE CAFE HOME </Text>
+                    <Text style = {styles.title2}> {locationName} </Text>
                     <Text style = {styles.title3}> Giờ mở cửa </Text>
                     <View style = {styles.information}>
                         <View style = {{flexDirection : "row"}}> 
@@ -43,7 +44,7 @@ function ShopInformation({route, navigation}:any): React.JSX.Element {
                                 <Icon1 name={"location-arrow"} style = {styles.icons}></Icon1>
                             </TouchableOpacity>
                             <Text style = {styles.content}>
-                                66E Hoàng Diệu
+                                {locationAddress}
                             </Text>
                         </View>
                     </View>
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     imageContainer : {
         width : window.width,
         height : window.width,
-        backgroundColor : "red"
+        // backgroundColor : "red"
     },
     title1 : {
         fontSize : 14,
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
     content : {
         fontSize : 15,
         textAlignVertical : "center",
+        width: '80%'
     },
     icons : {fontSize : 20},
 
@@ -169,6 +171,12 @@ const styles = StyleSheet.create({
           color : blackRGB,
           fontSize : 20,
       },
+      image: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 10,
+        marginRight: 20,
+    },
 })
 
 export default ShopInformation;

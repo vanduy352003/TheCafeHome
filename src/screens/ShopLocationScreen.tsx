@@ -33,8 +33,8 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
       })
     },[])
     
-    const handleNavigate = () => {
-      navigation.push("LocationDetail")
+    const handleNavigate = (id, name, address, imageUrl) => {
+      navigation.push("LocationDetail", {id: id, locationName:name, locationAddress:address, imageUrl:imageUrl})
     }
     const handleQuickPick = (name, address, id) => {
       setTakeAwayAddress({name, address, id})
@@ -57,7 +57,7 @@ function ShopLocationScreen({navigation, route}: any): React.JSX.Element {
                   data={locations.filter(location=>location.locationAddress.toLowerCase().includes(searchText.toLowerCase()))}
                   renderItem={itemData => {
                     return(
-                      <LocationCard isQuickPick={isQuickPick} name={itemData.item.locationName} address={itemData.item.locationAddress} id={itemData.item.locationId} navigationToDetail={isQuickPick?handleQuickPick:handleNavigate}></LocationCard>
+                      <LocationCard isQuickPick={isQuickPick} imageUrl={itemData.item.imageUrl} name={itemData.item.locationName} address={itemData.item.locationAddress} id={itemData.item.locationId} navigationToDetail={isQuickPick?handleQuickPick:handleNavigate}></LocationCard>
                     )
                   }}
                   keyExtractor={(item, index) => item.locationId.toString()}

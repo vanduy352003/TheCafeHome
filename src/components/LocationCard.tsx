@@ -11,16 +11,17 @@ type locationProps = {
     address: String,
     id: Number,
     isQuickPick: Boolean,
+    imageUrl: String,
 }
 
-function LocationCard({navigationToDetail, name, address, id, isQuickPick}:locationProps): React.JSX.Element {
+function LocationCard({navigationToDetail, name, address, id, isQuickPick, imageUrl}:locationProps): React.JSX.Element {
     const handleNavigate = () => {
-        isQuickPick?navigationToDetail(name, address, id):navigationToDetail();
+        isQuickPick?navigationToDetail(name, address, id):navigationToDetail(id, name, address, imageUrl);
     }
 
     return(
         <TouchableOpacity style={styles.container} onPress={handleNavigate}>
-            <Image style={styles.image} resizeMode="cover" source={require('../assets/images/hongtra.png')}></Image>
+            <Image style={styles.image} resizeMode="cover" source={imageUrl?{uri:imageUrl}:require('../assets/images/hongtra.png')}></Image>
             <View>
                 <Text style={styles.shopText}>{name}</Text>
                 <Text numberOfLines={2} style={styles.locationName}>{address}</Text>
